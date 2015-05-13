@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<!-- set size of map canvas div -->
+	<style type="text/css">
+		#map-canvas {
+			height: 500px;
+		}
+	</style>
+		<!-- Use this jquery script for event handling and selecting-->
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	    <script 
+	    	type="text/javascript"
+	      	src="https://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"> 
+	    </script>
+	    <script
+	    	type="text/javascript">
+
+
+			//create a javascript function to initialize the map to appear on web page
+	    	function initialise(location)
+	    	{
+	    		//look in console and insert the lat/lng from the object coords with lat/lng properties under the location object in this function **********(insert location input from homepage)************
+	    		var currentPosition = new google.maps.LatLng(location.coords.latitude, 
+  													location.coords.longitude);
+	    		//map option will show you how/what you want your map to display; required center and zoom options
+	    		var mapOptions = {
+  					center: currentPosition,
+  					zoom: 12,
+  					mapTypeId: google.maps.MapTypeId.ROADMAP
+				};
+				//how to make your map actually display, two parameters: map canvas in the div and mapOption object
+				var map = new google.maps.Map(document.getElementById("map-canvas"),
+    					mapOptions);
+
+				var marker = new google.maps.Marker({
+					position: currentPosition,
+					map: map
+				});
+
+				//create search box
+
+
+
+			}
+				//jquery document. ready handle so that the script doesnt get executed until page is fully loaded 
+			$(document).ready(function()
+			{
+				navigator.geolocation.getCurrentPosition(initialise);
+			});
+	    </script>
+</head>
+<body>
+
+<!--create empty div to put map in-->
+<div id="map-canvas"></div>
+	
+</body>
+</html>
