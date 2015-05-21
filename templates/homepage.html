@@ -2,11 +2,29 @@
 <html>
 <head>
 
-	<h2>Destination</h2>
-    <p><a href="/gmaps">Where are you going?</a></p>
+
 
 </head>
 <body>
+    <h1>Put in your info</h1>
+    <form action="/gmaps_data" method="POST">
 
+        <div class="form-group">
+            <label>Destination:
+                <input type="text" name="city" required class="form-control">
+            </label>
+        </div>
+
+        <div class="form-group">
+            <label>Search:
+                <input type="text" name="search" required class="form-control">
+            </label>
+        </div>
+
+        <div class="form-group">
+            <input type="submit" value="Search For Things To Do!" class="button">
+        </div>
+
+    </form>
 </body>
 </html>

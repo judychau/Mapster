@@ -5,23 +5,29 @@ import json
 from jinja2 import StrictUndefined
 from flask import Flask, render_template, redirect, request, flash, session
 from flask_debugtoolbar import DebugToolbarExtension
-from model import User, Marker, Category, Marker_detail, connect_to_db, db
-
+from model import User, User_Points, Marker, Category, connect_to_db, db
 
 app = Flask(__name__)
-
 # Required to use Flask sessions and the debug toolbar
 app.secret_key = "ABC"
-
 # Normally, if you use an undefined variable in Jinja2, it fails silently.
 # This is horrible. Fix this so that, instead, it raises an error.
 app.jinja_env.undefined = StrictUndefined
 
-@app.route("", methods=['GET'])
+
+
+@app.route("/homepage", methods=['GET'])
+    """shows homepage where user will put in info"""
+
+    return render_template("homepage.html")
+
+
+
+@app.route("/gmaps_data", methods=['GET'])
 def gmaps_data():
     """shows info about a place"""
 
-    query='' #request.form.(name of place)
+    query= request.form['search'] #how do I add/get location of a place to be inserted into the search? how do i get it from homepage?
 
     gmaps_key = 'AIzaSyCn6VQGxBbY14uHWiaIoRbPdx7OA4_RI7o'
     search_url= 'https://maps.googleapis.com/maps/api/place/textsearch/json?query=%s&key=%s' %query %gmaps_key

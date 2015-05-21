@@ -1,7 +1,6 @@
-"""Models and database functions for hackbright project."""
+"""Models and database functions for Mapster"""
 
 from flask_sqlalchemy import SQLAlchemy
-
 # This is the connection to the SQLite database; we're getting this through
 # the Flask-SQLAlchemy helper library. On this, we can find the `session`
 # object, where we do most of our interactions (like committing, etc.)
@@ -12,10 +11,9 @@ db = SQLAlchemy()
 #model definitions
 
 class User(db.Model):
-    """User of website"""
+    """User info"""
 
     __tablename__="users"
-
 
     user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     email = db.Column(db.String(64), nullable=True)
@@ -25,51 +23,36 @@ class User(db.Model):
         return "<User user_id=%s email=%s password=%s>" % (self.user_id,self.email, self.password)
 
 
+class User_Point(db.Model):
+    """user and marker table to show relationship, one user has many markers"""
+
+    __tablename__="user_points"
+
+    point_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    marker_id = db.Column(db.String(64), nullable=True)
+    user_id = db.Column(db.String(64), nullable=True)
+
 class Marker(db.Model):
-    """pin/marker for features on map"""
+    """pin/marker info"""
 
     __tablename__="markers"
 
     marker_id = db.Column(db.Integer,primary_key=True)
+    name = db.Column(db.String)
     longitude = db.Column(db.float)
     latitude = db.Column(db.float)
-    marker_name = db.Column(db.String)
-    category_id = db.Column(db.Integer, db.ForeignKey('categories.category_id'))
-    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
-
-    # this defines the back reference marker relationship to the user and category
-    user= db.relationship("User",
-                           backref = db.backref("markers", order_by=marker_id))
-
-    user= db.relationship("Category",
-                           backref = db.backref("markers", order_by=marker_id))
+    address = db.Column(db.String)
+    place_id = db.Column(db.String)
 
 
 class Category(db.Model):
-    """category of marker"""
+    """category of marker, one marker has many categories"""
 
     __tablename__="categories"
 
     category_id = db.Column(db.Integer, primary_key=True)
-    type = db.Column(db.String)
+    category_type = db.Column(db.String)
     sub_type = db.Column(db.String)
-    icon = db.Column(db.String)
-
-
-class Marker_Detail(db.Model):
-    """marker info"""
-
-    __tablename__="marker_details"
-
-    detail_id = db.Column(db.Integer,primary_key=True)
-    open_time = db.Column(db.DateTime)
-    close_time = db.Column(db.DateTime)
-    days_open = db.Column(db.String)
-    days_closed = db.Column(db.String)
-    marker_name = db.Column(db.Integer, db.ForeignKey('markers.marker_name'))
-
-    user= db.relationship("Marker",
-                           backref = db.backref("marker_detail", order_by=detail_id))
 
 
 
