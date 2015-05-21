@@ -1,0 +1,72 @@
+May 11, 2015
+-Researched how api's work
+-Researched google maps api
+-Looked into yelp's and instagram's api
+-Made a gmaps html page
+-Got a map to appear in my browser
+
+May 12, 2015
+-Looked into how to add a search box 
+-Looked into how to add a marker/pin to map
+-Got both to appear on map
+-Started wire framing project
+
+May 13, 2015
+-Looked into adding multiple markers on a page
+-A lot of trial and error, mostly errors..
+-Realized I needed to store user markers in a database
+-Started data model
+
+May 14,2015
+-made virtual env and saved all files to github
+-Started model.py to store my data
+-Started server.py to start framing my server
+-obtained key from google maps
+-tested api to get a json and got an error
+
+May 15, 2015
+-Investigated request error 
+-researched api request info for google maps
+
+
+May 18, 2015
+-My freaking api url finally works!!! Turns out I needed to enable which of the 40+ google api's I am using -__-
+-Got json response and working on seed.py
+
+May 19, 2015
+- Worked on api URL in seed.py
+-Wrote a funtion for the following to get the details api url:
+	-Need to extract placeid from the Place Search api because the Place Details api requires that placeid to get the json
+	-required: https://developers.google.com/places/webservice/search#TextSearchRequests
+	-required: https://developers.google.com/places/webservice/details
+-Turns out I do not need a seed.py file and I can just link through the db with server.py and form
+*******************************************************************************************************
+>>>>extract placeid from the Place Search api because the Place Details api requires that placeid to get the json<<<
+Do i even need this? lets keep it basic first and see if i need details later...
+
+def gmaps_data():
+    query='' #request.form.(name of place)
+
+    gmaps_key = 'AIzaSyCn6VQGxBbY14uHWiaIoRbPdx7OA4_RI7o'
+    search_url= 'https://maps.googleapis.com/maps/api/place/textsearch/json?query=%s&key=%s' %query %gmaps_key
+
+    api_data = requests.get(search_url)
+    data = api_data.json()
+
+    for item in data ['results']:
+        placeid = item['place_id']
+        placedetails = requests.get('https://maps.googleapis.com/maps/api/place/details/json?placeid=%s&key=%s' %placeid %gmaps_key)
+        data = placedetails.json()
+*******************************************************************************************************
+
+
+May 20, 2015
+- Working on displaying my json data through a form and eventually storing the data i need to my db
+- need to revise data model (model.py)
+
+
+Thoughts:
+jinga to insert api data onto html page?
+how to insert/display api data onto html page?
+
+

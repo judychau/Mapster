@@ -16,6 +16,7 @@
 	    <script
 	    	type="text/javascript">
 
+	    	var map;
 
 			//create a javascript function to initialize the map to appear on web page
 	    	function initialise(location)
@@ -30,19 +31,47 @@
   					mapTypeId: google.maps.MapTypeId.ROADMAP
 				};
 				//how to make your map actually display, two parameters: map canvas in the div and mapOption object
-				var map = new google.maps.Map(document.getElementById("map-canvas"),
+				map = new google.maps.Map(document.getElementById("map-canvas"),
     					mapOptions);
-
 				var marker = new google.maps.Marker({
 					position: currentPosition,
-					map: map
+					map: map,
+					draggable: true
 				});
-
 				//create search box
 
 
+				var request = {
+					location: currentPosition,
+					radius: 500,
+					types: ['store']
+				};
 
+				infowindow = new google.maps.InfoWindow();
+				var service = new google.maps.places.PlacesService(map);
+				service.nearbySearch(request, callback);
 			}
+
+			function callback(results, status) {
+				if (status == google.maps.places.PlacesServiceStatus.OK) {
+					for (var i = 0; i < results.length; i++) {
+						createMarker(results[i])
+					}
+				}
+			}
+			function createMarker(place) {
+			  var placeLoc = place.geometry.location;
+			  var marker = new google.maps.Marker({
+			    map: map,
+			    position: place.geometry.location
+			  });
+
+			  google.maps.event.addListener(marker, 'click', function() {
+			    infowindow.setContent(place.name);
+			    infowindow.open(map, this);
+			  });
+			}
+
 				//jquery document. ready handle so that the script doesnt get executed until page is fully loaded 
 			$(document).ready(function()
 			{
