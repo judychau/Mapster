@@ -1,11 +1,9 @@
 """Mapster Server"""
-import requests
-import json
-
+from scripts import gmaps_api
 from jinja2 import StrictUndefined
 from flask import Flask, render_template, redirect, request, flash, session
 from flask_debugtoolbar import DebugToolbarExtension
-from model import User, User_Points, Marker, Category, connect_to_db, db
+#from model import User, User_Points, Marker, Category, connect_to_db, db
 
 app = Flask(__name__)
 # Required to use Flask sessions and the debug toolbar
@@ -16,45 +14,28 @@ app.jinja_env.undefined = StrictUndefined
 
 
 
-@app.route("/homepage", methods=['GET'])
+@app.route("/", methods=['GET'])
+def index():
     """shows homepage where user will put in info"""
 
     return render_template("homepage.html")
 
 
 
-@app.route("/gmaps_data", methods=['GET'])
-def gmaps_data():
-    """shows info about a place"""
+@app.route("/gmaps_data", methods=['POST'])
+def gmaps_results():
+    """use user input (from homepage) and put it in the query parameter of url to display search results in gmaps_data.html"""
 
-    query= request.form['search'] #how do I add/get location of a place to be inserted into the search? how do i get it from homepage?
+    search = request.form['search'] 
+    destination = request.form['destination']
 
-    gmaps_key = 'AIzaSyCn6VQGxBbY14uHWiaIoRbPdx7OA4_RI7o'
-    search_url= 'https://maps.googleapis.com/maps/api/place/textsearch/json?query=%s&key=%s' %query %gmaps_key
+    json= gmaps_api(search, destination) #results from scripts gmaps_api function
 
-    api_data = requests.get(search_url)
-    data = api_data.json()
+    return render_template("gmaps_data.html",json=json) #return info to html gmaps_data
 
-    for item in data ['results']:
-        name = item['name']
-        place_id = item['place_id']
-        address = item['formatted_address']
-        latitude = item['geometry']['location']['lat']
-        longitude = item['geometry']['location']['lng']
-        category = item['types']
-
-    return render_template("gmaps_data.html",
-        name=name,
-        place_id=place_id,
-        address=address,
-        latitude=latitude,
-        longitude=longitude,
-        category=category
-        )
-
-@app.route("", methods=['POST'])
-def user_markers():
-    """Let user save markers/location (save markers to db)"""
+# @app.route("", methods=['POST'])
+# def user_markers():
+#     """Let user save markers/location (save markers to db)"""
 
 
 
@@ -64,7 +45,7 @@ if __name__ == "__main__":
     # that we invoke the DebugToolbarExtension
     app.debug = True
 
-    connect_to_db(app)
+    # connect_to_db(app)
 
     # Use the DebugToolbar
     DebugToolbarExtension(app)

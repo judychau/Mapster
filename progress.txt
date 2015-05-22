@@ -64,9 +64,13 @@ May 20, 2015
 - Working on displaying my json data through a form and eventually storing the data i need to my db
 - need to revise data model (model.py)
 
+May 21, 2015
+-Tried inserting data through jinja but only displayed one result
+-Researched how to display multiple results
 
-Thoughts:
-jinga to insert api data onto html page?
-how to insert/display api data onto html page?
+May 22, 2015
+-Kristine helped me re organized my api function into two functions: 
+    1. gmaps_search: use user input and put it in the query parameter of api url to display data results in gmaps_data.html
+    2. gmaps_api: json results from api url
 
 

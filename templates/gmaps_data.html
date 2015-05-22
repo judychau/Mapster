@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+
+	{% for item in json['results'] %}
+
+	<p> Name: {{ item['name'] }} </p>
+	<p> Address: {{ item['formatted_address'] }} </p>
+	<p> Place Id: {{ item['place_id'] }} </p>
+	<p> Latitude: {{ item['geometry']['location']['lat'] }} </p>
+	<p> Longitude: {{ item['geometry']['location']['lng'] }} </p>
+	<p> Category: {{ item['types'] }} </p>
+
+	{% endfor %}
+	<!-- create a form for the user to save their marker data into database -->
+
+</body>
+</html>
