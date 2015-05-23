@@ -1,5 +1,5 @@
 """Mapster Server"""
-from scripts import gmaps_api
+from scripts import gmaps_request
 from jinja2 import StrictUndefined
 from flask import Flask, render_template, redirect, request, flash, session
 from flask_debugtoolbar import DebugToolbarExtension
@@ -24,12 +24,12 @@ def index():
 
 @app.route("/gmaps_data", methods=['POST'])
 def gmaps_results():
-    """use user input (from homepage) and put it in the query parameter of url to display search results in gmaps_data.html"""
+    """use user input (from homepage) as the query parameter of url to display search results in gmaps_data.html"""
 
     search = request.form['search'] 
     destination = request.form['destination']
 
-    json= gmaps_api(search, destination) #results from scripts gmaps_api function
+    json= gmaps_request(search, destination) #results from scripts gmaps_api function
 
     return render_template("gmaps_data.html",json=json) #return info to html gmaps_data
 

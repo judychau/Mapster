@@ -1,20 +1,59 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+	<script>
+		$(".savedata").on("click", function(evt) {
+			console.log('1')
+			// prevents the routing href=/ on the <a>
+            evt.preventDefault();
+            console.log('2')
+            // takes all the things on current target ('a') and turns it to a data object, setting that obj to variable params
+            var params = $(evt.currentTarget).data();
+            console.log('3')
+            // .param() formats data object into parameter info
+            var markerInfo= $.param(params);
+            console.log('4')
+            // debugging: console.log(markerInfo);
+            // debugging: alert('clicked!');
+        	$.post("/gmaps_data",
+        		console.log(markerInfo);
+        		{ markerInfo },
+        		function (result) { alert('marker saved') }	
+        		);
+
+		}
+
+	</script>
+
 </head>
 <body>
 
+	<ul>
 	{% for item in json['results'] %}
+	
 
-	<p> Name: {{ item['name'] }} </p>
-	<p> Address: {{ item['formatted_address'] }} </p>
-	<p> Place Id: {{ item['place_id'] }} </p>
-	<p> Latitude: {{ item['geometry']['location']['lat'] }} </p>
-	<p> Longitude: {{ item['geometry']['location']['lng'] }} </p>
-	<p> Category: {{ item['types'] }} </p>
+		<a href='/gmaps_data' class="savedata" data-name="{{ item['name'] }}"
+		data-address= "{{ item['formatted_address'] }}"
+		data-place-id= "{{ item['place_id'] }}"
+		data-latitude= "{{ item['geometry']['location']['lat'] }}"
+		data-longitude= "{{ item['geometry']['location']['lng'] }}"
+		data-category= "{{ item['types'] }}" </a>
+
+			<li> 
+				<p> {{ item['name'] }} </p>
+				<p>{{ item['formatted_address'] }} </p>
+				<p> category: {{ item['types'] }} </p> 
+			</li>
+
+
+
+	<!-- <input type='button'> save </input> -->
 
 	{% endfor %}
+	</ul>
 	<!-- create a form for the user to save their marker data into database -->
+</form>
 
 </body>
 </html>

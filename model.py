@@ -24,7 +24,7 @@ class User(db.Model):
 
 
 class User_Point(db.Model):
-    """user and marker table to show relationship, one user has many markers"""
+    """user and marker association table to show relationship, one user has many markers"""
 
     __tablename__="user_points"
 
@@ -52,8 +52,16 @@ class Category(db.Model):
 
     category_id = db.Column(db.Integer, primary_key=True)
     category_type = db.Column(db.String)
-    sub_type = db.Column(db.String)
 
+
+class Marker_Category(db.Model):
+    """marker and category association table to show relationship, one marker has many categories"""
+
+    __tablename__=marker_categories
+
+    marker_cat_id = db.Column(db.Integer, primary_key=True)
+    category_id = db.Column(db.Integer)
+    marker_id = db.Column(db.Integer)
 
 
 def connect_to_db(app):

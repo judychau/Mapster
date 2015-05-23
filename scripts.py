@@ -4,8 +4,8 @@ import os #to access secrets.sh
 GMAPS_KEY=os.environ['gmaps_key'] #'gmaps_key' from secrets.sh and passing to gmaps_key in url
 
 
-def gmaps_api(search, destination):
-    """shows info about a place"""
+def gmaps_request(search, destination):
+    """requests info about a place using query parameter"""
 
     pre_query = search + '+' + destination
     QUERY = pre_query.replace(' ', '+') 
