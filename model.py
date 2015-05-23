@@ -29,15 +29,23 @@ class User_Point(db.Model):
     __tablename__="user_points"
 
     point_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    marker_id = db.Column(db.String(64), nullable=True)
-    user_id = db.Column(db.String(64), nullable=True)
+    marker_id = db.Column(db.Integer(64), db.ForeignKey('markers.marker_id'))
+    user_id = db.Column(db.Integer(64), db.ForeignKey('users.user_id')
+
+    # Define relationship to user
+    user = db.relationship("User",
+                           backref=db.backref("user_points", order_by=point_id))
+
+    # Define relationship to marker
+    movie = db.relationship("Marker",
+                            backref=db.backref("user_points", order_by=point_id))
 
 class Marker(db.Model):
     """pin/marker info"""
 
     __tablename__="markers"
 
-    marker_id = db.Column(db.Integer,primary_key=True)
+    marker_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     name = db.Column(db.String)
     longitude = db.Column(db.float)
     latitude = db.Column(db.float)
@@ -50,7 +58,7 @@ class Category(db.Model):
 
     __tablename__="categories"
 
-    category_id = db.Column(db.Integer, primary_key=True)
+    category_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     category_type = db.Column(db.String)
 
 
@@ -59,9 +67,17 @@ class Marker_Category(db.Model):
 
     __tablename__=marker_categories
 
-    marker_cat_id = db.Column(db.Integer, primary_key=True)
-    category_id = db.Column(db.Integer)
-    marker_id = db.Column(db.Integer)
+    marker_cat_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    category_id = db.Column(db.Integer, db.ForeignKey('categories.category_id'))
+    marker_id = db.Column(db.Integer,db.ForeignKey('markers.marker_id'))
+
+    # Define relationship to category
+    user = db.relationship("Category",
+                           backref=db.backref("marker_categories", order_by=marker_cat_id))
+
+    # Define relationship to marker
+    movie = db.relationship("Marker",
+                            backref=db.backref("marker_categories", order_by=marker_cat_id))
 
 
 def connect_to_db(app):

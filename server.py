@@ -37,7 +37,13 @@ def gmaps_results():
 def save_marker():
     """Let user save markers/location (save markers to db)"""
 
+    # How do I request data inside <a> tag??
 
+    #This will be inserted into the marker table of the DB (model.py)
+    new_marker= Marker(name=name, longitude=longitude, latitude=latitude, address=address, place_id=place_id) 
+
+    db.session.add(new_marker)
+    db.session.commit()
 
 
 if __name__ == "__main__":

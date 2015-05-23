@@ -8,7 +8,7 @@
 			// prevents the routing href=/ on the <a>
             evt.preventDefault();
             console.log('2')
-            // takes all the things on current target ('a') and turns it to a data object, setting that obj to variable params
+            // takes all the things on current target ('<a>') and turns it to a data object, setting that obj to variable params
             var params = $(evt.currentTarget).data();
             console.log('3')
             // .param() formats data object into parameter info
@@ -30,8 +30,9 @@
 <body>
 
 	<ul>
+	<!-- data is being sent by a link(<a>) instead of a form (since we want to save the already populated marker info that the user chooses, not a form of what the user inputs) Inside the <li> is a list of what is seen on the gmaps_data.html webpage. We will use ajax (above in $(."savedata")) to send the linked info to our server where we can save the data to our DB. -->
+
 	{% for item in json['results'] %}
-	
 
 		<a href='/save_marker' class="savedata" data-name="{{ item['name'] }}"
 		data-address= "{{ item['formatted_address'] }}"
@@ -47,12 +48,11 @@
 			</li>
 
 
-
 	<!-- <input type='button'> save </input> -->
 
 	{% endfor %}
 	</ul>
-	<!-- create a form for the user to save their marker data into database -->
+
 </form>
 
 </body>

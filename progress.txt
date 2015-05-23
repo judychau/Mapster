@@ -47,7 +47,7 @@ Do i even need this? lets keep it basic first and see if i need details later...
 def gmaps_data():
     query='' #request.form.(name of place)
 
-    gmaps_key = 'AIzaSyCn6VQGxBbY14uHWiaIoRbPdx7OA4_RI7o'
+    GMAPS_KEY=os.environ['gmaps_key']
     search_url= 'https://maps.googleapis.com/maps/api/place/textsearch/json?query=%s&key=%s' %query %gmaps_key
 
     api_data = requests.get(search_url)
@@ -74,5 +74,9 @@ May 22, 2015
     2. gmaps_request: json results from api url
 -Got all my data to display by moving my "for loop" into my html instead of my server
 -Working on saving one marker by passing the info in the form of a link AND using AJAX (currently working on the AJAX part)
+
+May 23, 2015
+-Finished up my model.py with only data I need from gmaps, will add more to it later when I integrate more api's
+-working on requesting the data from the gmaps_data html, I only know request.form and am investingating other ways to request. Might also need to parse the hyperlink since it is containing the data I need.
 
 
