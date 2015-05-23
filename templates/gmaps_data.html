@@ -16,7 +16,7 @@
             console.log('4')
             // debugging: console.log(markerInfo);
             // debugging: alert('clicked!');
-        	$.post("/gmaps_data",
+        	$.post("/save_marker",
         		console.log(markerInfo);
         		{ markerInfo },
         		function (result) { alert('marker saved') }	
@@ -33,7 +33,7 @@
 	{% for item in json['results'] %}
 	
 
-		<a href='/gmaps_data' class="savedata" data-name="{{ item['name'] }}"
+		<a href='/save_marker' class="savedata" data-name="{{ item['name'] }}"
 		data-address= "{{ item['formatted_address'] }}"
 		data-place-id= "{{ item['place_id'] }}"
 		data-latitude= "{{ item['geometry']['location']['lat'] }}"
@@ -42,7 +42,7 @@
 
 			<li> 
 				<p> {{ item['name'] }} </p>
-				<p>{{ item['formatted_address'] }} </p>
+				<p> {{ item['formatted_address'] }} </p>
 				<p> category: {{ item['types'] }} </p> 
 			</li>
 

@@ -72,5 +72,7 @@ May 22, 2015
 -Kristine helped me re organized my api function into two functions: 
     1. gmaps_results: use user input and put it in the query parameter of api url to display data results in gmaps_data.html
     2. gmaps_request: json results from api url
+-Got all my data to display by moving my "for loop" into my html instead of my server
+-Working on saving one marker by passing the info in the form of a link AND using AJAX (currently working on the AJAX part)
 
 

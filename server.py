@@ -33,9 +33,9 @@ def gmaps_results():
 
     return render_template("gmaps_data.html",json=json) #return info to html gmaps_data
 
-# @app.route("", methods=['POST'])
-# def user_markers():
-#     """Let user save markers/location (save markers to db)"""
+@app.route("/save_marker", methods=['POST'])
+def save_marker():
+    """Let user save markers/location (save markers to db)"""
 
 
 
