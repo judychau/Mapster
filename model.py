@@ -16,6 +16,8 @@ class User(db.Model):
     __tablename__="users"
 
     user_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    name = db.Column(db.String(64), nullable=True)
+    age = db.Column(db.Integer, nullable=True)
     email = db.Column(db.String(64), nullable=True)
     password = db.Column(db.String(64), nullable=True)
 
@@ -29,8 +31,8 @@ class User_Point(db.Model):
     __tablename__="user_points"
 
     point_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    marker_id = db.Column(db.Integer(64), db.ForeignKey('markers.marker_id'))
-    user_id = db.Column(db.Integer(64), db.ForeignKey('users.user_id')
+    marker_id = db.Column(db.Integer, db.ForeignKey('markers.marker_id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
 
     # Define relationship to user
     user = db.relationship("User",
@@ -47,8 +49,8 @@ class Marker(db.Model):
 
     marker_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     name = db.Column(db.String)
-    longitude = db.Column(db.float)
-    latitude = db.Column(db.float)
+    longitude = db.Column(db.Float)
+    latitude = db.Column(db.Float)
     address = db.Column(db.String)
     place_id = db.Column(db.String)
 
@@ -65,7 +67,7 @@ class Category(db.Model):
 class Marker_Category(db.Model):
     """marker and category association table to show relationship, one marker has many categories"""
 
-    __tablename__=marker_categories
+    __tablename__="marker_categories"
 
     marker_cat_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     category_id = db.Column(db.Integer, db.ForeignKey('categories.category_id'))
@@ -92,7 +94,6 @@ def connect_to_db(app):
 if __name__ == "__main__":
     # As a convenience, if we run this module interactively, it will leave
     # you in a state of being able to work with the database directly.
-
     from server import app
     connect_to_db(app)
-    print "Connected to DB."
+    print "Connected to Mapster DB."
