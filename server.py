@@ -108,8 +108,15 @@ def save_marker():
     latitude = request.form.get("latitude")
     category = request.form.get("category")
 
-    #This will be inserted into the marker table of the DB (model.py) --dont forget to parse the category field
-    new_marker= Marker(name=name, address=address, place_id=place_id, longitude=longitude, latitude=latitude)
+    print name
+    print address
+    print place_id
+    print longitude
+    print latitude
+    print category
+
+    # #This will be inserted into the marker table of the DB (model.py) --dont forget to parse the category field
+    new_marker = Marker(name=name, address=address, place_id=place_id, longitude=longitude, latitude=latitude)
 
     db.session.add(new_marker)
     db.session.commit()
@@ -120,7 +127,7 @@ if __name__ == "__main__":
     # that we invoke the DebugToolbarExtension
     app.debug = True
 
-    # connect_to_db(app)
+    connect_to_db(app)
 
     # Use the DebugToolbar
     DebugToolbarExtension(app)

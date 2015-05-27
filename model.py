@@ -49,10 +49,10 @@ class Marker(db.Model):
 
     marker_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     name = db.Column(db.String)
-    longitude = db.Column(db.Float)
-    latitude = db.Column(db.Float)
     address = db.Column(db.String)
     place_id = db.Column(db.String)
+    longitude = db.Column(db.Float)
+    latitude = db.Column(db.Float)
 
 
 class Category(db.Model):

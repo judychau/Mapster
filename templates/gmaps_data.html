@@ -17,10 +17,18 @@
             // debugging: console.log(markerInfo);
             // debugging: alert('clicked!');
             console.log(markerInfo);
-        	$.post("/save_marker",
-        		{ markerInfo },
-        		function (result) { alert('marker saved') }	
-        		);
+            $.ajax({
+            	type: "POST",
+            	url: "/save_marker",
+            	data: markerInfo
+            });
+            console.log("4");
+
+            //THIS AJAX CALL DID NOT WORK
+        	// $.post("/save_marker",
+        	// 	{ markerInfo },
+        	// 	function (result) { alert('marker saved') }	
+        	// 	);
 
 		});
 	});
@@ -29,29 +37,25 @@
 </head>
 <body>
 
-	<ul>
 	<!-- data is being sent by a link(<a>) instead of a form (since we want to save the already populated marker info that the user chooses, not a form of what the user inputs) Inside the <li> is a list of what is seen on the gmaps_data.html webpage. We will use ajax (above in $(".savedata")) to send the linked info to our server where we can save the data to our DB. -->
 
-	{% for item in json['results'] %}
-
-		<a href='#' class="savedata" data-name="{{ item['name'] }}"
-		data-address= "{{ item['formatted_address'] }}"
-		data-place-id= "{{ item['place_id'] }}"
-		data-latitude= "{{ item['geometry']['location']['lat'] }}"
-		data-longitude= "{{ item['geometry']['location']['lng'] }}"
-		data-category= "{{ item['types'] }}"> 
+	<ul>
+		{% for item in json['results'] %}
 
 			<li> 
 				<p> {{ item['name'] }} </p>
 				<p> {{ item['formatted_address'] }} </p>
 				<p> category: {{ item['types'] }} </p> 
 			</li>
-	</a>
 
+			<button a href='#' name="marker-button" class="savedata" data-name="{{ item['name'] }}"
+				data-address= "{{ item['formatted_address'] }}"
+				data-place-id= "{{ item['place_id'] }}"
+				data-latitude= "{{ item['geometry']['location']['lat'] }}"
+				data-longitude= "{{ item['geometry']['location']['lng'] }}"
+				data-category= "{{ item['types'] }}"> Save Location </button>
 
-	<!-- <input type='button'> save </input> -->
-
-	{% endfor %}
+		{% endfor %}
 	</ul>
 
 </body>
