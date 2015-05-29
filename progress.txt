@@ -79,4 +79,19 @@ May 23, 2015
 -Finished up my model.py with only data I need from gmaps, will add more to it later when I integrate more api's
 -working on requesting the data from the gmaps_data html, I only know request.form and am investingating other ways to request. Might also need to parse the hyperlink since it is containing the data I need.
 
+May 25, 2015
+-Reviewed javascript
+
+May 26, 2015
+-Got my ajax fixed and now info is getting through my server with request.form.get call
+-Worked on login, registration form, routes, and sessions
+
+May 27, 2015
+-Got user and marker data into the database but somehow my association tables are not linking, investigating.
+
+May 28, 2015
+-Fixed my save_marker session by putting it in jinga html instead of server.py
+-Added the user_markers association data in my server.py
+-Tested login, logout, save_marker. EVERYTHING IS WORKING- DONE WITH MVP!=]
+-Looking into yelp api
 

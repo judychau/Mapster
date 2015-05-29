@@ -25,22 +25,15 @@ class User(db.Model):
         return "<User user_id=%s email=%s password=%s>" % (self.user_id,self.email, self.password)
 
 
-class User_Point(db.Model):
+class User_Marker(db.Model):
     """user and marker association table to show relationship, one user has many markers"""
 
-    __tablename__="user_points"
+    __tablename__="user_markers"
 
-    point_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    user_marker_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     marker_id = db.Column(db.Integer, db.ForeignKey('markers.marker_id'))
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
 
-    # Define relationship to user
-    user = db.relationship("User",
-                           backref=db.backref("user_points", order_by=point_id))
-
-    # Define relationship to marker
-    movie = db.relationship("Marker",
-                            backref=db.backref("user_points", order_by=point_id))
 
 class Marker(db.Model):
     """pin/marker info"""
@@ -54,6 +47,10 @@ class Marker(db.Model):
     longitude = db.Column(db.Float)
     latitude = db.Column(db.Float)
 
+    # Define relationship to user and category; only have to do this in one class bc User_Marker/Marker_Categorites are pure association table
+    # params for relationship(class name, table name, name to call class markers
+    users = db.relationship("User", secondary='user_markers', backref=db.backref("markers"))
+    categories = db.relationship("Category", secondary='marker_categories', backref=db.backref("markers"))
 
 class Category(db.Model):
     """category of marker, one marker has many categories"""
@@ -72,14 +69,6 @@ class Marker_Category(db.Model):
     marker_cat_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     category_id = db.Column(db.Integer, db.ForeignKey('categories.category_id'))
     marker_id = db.Column(db.Integer,db.ForeignKey('markers.marker_id'))
-
-    # Define relationship to category
-    user = db.relationship("Category",
-                           backref=db.backref("marker_categories", order_by=marker_cat_id))
-
-    # Define relationship to marker
-    movie = db.relationship("Marker",
-                            backref=db.backref("marker_categories", order_by=marker_cat_id))
 
 
 def connect_to_db(app):

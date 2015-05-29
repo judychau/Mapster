@@ -17,11 +17,12 @@
             // debugging: console.log(markerInfo);
             // debugging: alert('clicked!');
             console.log(markerInfo);
-            $.ajax({
-            	type: "POST",
-            	url: "/save_marker",
-            	data: markerInfo
-            });
+	            $.ajax(
+		            {
+		            	type: "POST",
+		            	url: "/save_marker",
+		            	data: markerInfo
+		            });
             console.log("4");
 
             //THIS AJAX CALL DID NOT WORK
@@ -48,12 +49,17 @@
 				<p> category: {{ item['types'] }} </p> 
 			</li>
 
-			<button a href='#' name="marker-button" class="savedata" data-name="{{ item['name'] }}"
-				data-address= "{{ item['formatted_address'] }}"
-				data-place-id= "{{ item['place_id'] }}"
-				data-latitude= "{{ item['geometry']['location']['lat'] }}"
-				data-longitude= "{{ item['geometry']['location']['lng'] }}"
-				data-category= "{{ item['types'] }}"> Save Location </button>
+				{% if "user_id" in session %}
+					<button a href='#' name="marker-button" class="savedata" data-name="{{ item['name'] }}"
+						data-address= "{{ item['formatted_address'] }}"
+						data-place-id= "{{ item['place_id'] }}"
+						data-latitude= "{{ item['geometry']['location']['lat'] }}"
+						data-longitude= "{{ item['geometry']['location']['lng'] }}"
+						data-category= "{{ item['types'] }}"> Save Location </button>
+				{% else %}
+					<p> Log in to save this location! </p>
+
+			{% endif %}
 
 		{% endfor %}
 	</ul>

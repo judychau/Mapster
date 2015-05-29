@@ -4,7 +4,7 @@ from jinja2 import StrictUndefined
 from flask import Flask, render_template, redirect, request, flash, session
 from flask_debugtoolbar import DebugToolbarExtension
 #from model import User, User_Points, Marker, Category, connect_to_db, db
-from model import connect_to_db, db, User, Marker, User_Point, Category, Marker_Category
+from model import connect_to_db, db, User, Marker, User_Marker, Category, Marker_Category
 
 app = Flask(__name__)
 # Required to use Flask sessions and the debug toolbar
@@ -39,7 +39,7 @@ def login_process():
     user = User.query.filter_by(email=email).first()
 
     if not user:
-        flash("No such user")
+        flash("User does not exist")
         return redirect("/login")
 
     if user.password != password:
@@ -48,8 +48,8 @@ def login_process():
 
     session["user_id"] = user.user_id
 
-    flash("You are now logged in")
-    return redirect("/users/%s" % user.user_id)
+    flash("%s, you are now logged in" % user.name)
+    return redirect("/")
 
 
 @app.route('/logout')
@@ -76,13 +76,21 @@ def register_process():
     email = request.form["email"]
     password = request.form["password"]
 
-    new_user = User(name=name, age=age, email=email, password=password)
+    check = User.query.filter_by(email=email).all()
 
-    db.session.add(new_user)
-    db.session.commit()
+    if check:
+        flash("This username already exists.")
+        return redirect('/register')
+    else:
+        new_user = User(name=name, age=age, email=email, password=password)
 
-    flash("User %s added." % email)
-    return redirect("/")
+        db.session.add(new_user)
+        db.session.commit()
+
+        session["user_id"] = new_user.user_id
+
+        flash("%s is now registered" % name)
+        return redirect("/")
 
 
 @app.route("/gmaps_data", methods=['POST'])
@@ -92,14 +100,14 @@ def gmaps_results():
     search = request.form['search'] 
     destination = request.form['destination']
 
-    json= gmaps_request(search, destination) #results from scripts gmaps_api function
+    json = gmaps_request(search, destination) #results from scripts gmaps_api function
 
     return render_template("gmaps_data.html",json=json) #return info to html gmaps_data
 
 
 @app.route("/save_marker", methods=['POST'])
 def save_marker():
-    """Lets user save markers/location (save markers to db)"""
+    """Lets users who are logged in save markers/location (save markers to db)"""
 
     name = request.form.get("name") #request.args.get is when you use the "GET" method
     address = request.form.get("address")
@@ -108,18 +116,29 @@ def save_marker():
     latitude = request.form.get("latitude")
     category = request.form.get("category")
 
-    print name
-    print address
-    print place_id
-    print longitude
-    print latitude
-    print category
+    user_id = session.get("user_id")
 
+    check = Marker.query.filter_by(place_id=place_id).first()
+
+    if not check:
     # #This will be inserted into the marker table of the DB (model.py) --dont forget to parse the category field
-    new_marker = Marker(name=name, address=address, place_id=place_id, longitude=longitude, latitude=latitude)
+        new_marker = Marker(name=name, address=address, place_id=place_id, longitude=longitude, latitude=latitude)
+        db.session.add(new_marker)
+        db.session.commit()
 
-    db.session.add(new_marker)
-    db.session.commit()
+        marker_id = new_marker.marker_id
+
+        new_user_marker = User_Marker(user_id=user_id, marker_id=marker_id)
+        db.session.add(new_user_marker)
+        db.session.commit()
+
+        flash("Location added")
+        print new_marker
+        print new_user_marker
+    else:
+        flash("You already saved this location")
+
+    return "saved to database successfully"
 
 
 if __name__ == "__main__":
