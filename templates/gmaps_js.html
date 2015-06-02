@@ -33,6 +33,8 @@
 				//how to make your map actually display, two parameters: map canvas in the div and mapOption object
 				map = new google.maps.Map(document.getElementById("map-canvas"),
     					mapOptions);
+
+    			//create markers
 				var marker = new google.maps.Marker({
 					position: currentPosition,
 					map: map,
@@ -49,7 +51,7 @@
 
 				infowindow = new google.maps.InfoWindow();
 				var service = new google.maps.places.PlacesService(map);
-				service.nearbySearch(request, callback);
+					service.nearbySearch(request, callback);
 			}
 
 			function callback(results, status) {
@@ -59,24 +61,25 @@
 					}
 				}
 			}
-			function createMarker(place) {
-			  var placeLoc = place.geometry.location;
-			  var marker = new google.maps.Marker({
-			    map: map,
-			    position: place.geometry.location
-			  });
 
-			  google.maps.event.addListener(marker, 'click', function() {
-			    infowindow.setContent(place.name);
-			    infowindow.open(map, this);
-			  });
+			function createMarker(place) {
+			  	var placeLoc = place.geometry.location;
+			  	var marker = new google.maps.Marker({
+			    	map: map,
+			    	position: place.geometry.location
+			  	});
+
+			  	google.maps.event.addListener(marker, 'click', function() {
+			    	infowindow.setContent(place.name);
+			    	infowindow.open(map, this);
+			  	});
 			}
 
-				//jquery document. ready handle so that the script doesnt get executed until page is fully loaded 
+			//jquery document. ready handle so that the script doesnt get executed until page is fully loaded 
 			$(document).ready(function()
-			{
+				{
 				navigator.geolocation.getCurrentPosition(initialise);
-			});
+				});
 	    </script>
 </head>
 <body>

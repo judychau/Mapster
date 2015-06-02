@@ -1,42 +1,65 @@
-<!DOCTYPE html>
-<html>
-<head>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+{% extends 'base.html' %}
+
+{% block head %}
+
+	<script src="https://maps.googleapis.com/maps/api/js"></script>
+	<script src="https://code.jquery.com/jquery.js"></script>
+
 	<script>
-	$(document).ready(function(){
-		$(".savedata").on("click", function(evt) {
-			console.log('1')
-			// prevents the routing href=/ on the <a>
-            evt.preventDefault();
-            console.log('2')
-            // takes all the things on current target ('<a>') and turns it to a data object, setting that obj to variable params
-            var params = $(evt.currentTarget).data();
-            console.log('3')
-            // .param() formats data object into parameter info
-            var markerInfo= $.param(params);
-            // debugging: console.log(markerInfo);
-            // debugging: alert('clicked!');
-            console.log(markerInfo);
-	            $.ajax(
-		            {
-		            	type: "POST",
-		            	url: "/save_marker",
-		            	data: markerInfo
-		            });
-            console.log("4");
+		var map;
 
-            //THIS AJAX CALL DID NOT WORK
-        	// $.post("/save_marker",
-        	// 	{ markerInfo },
-        	// 	function (result) { alert('marker saved') }	
-        	// 	);
+		    function initialize() {
+		    	var currentPosition = new google.maps.LatLng(results.geometry.location.latitude, 
+	  													results.geometry.location.longitude);
+		        var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions)
+		        var mapOptions = {
+		          	center: currentPosition,
+					zoom: 12,
+					mapTypeId: google.maps.MapTypeId.ROADMAP
+				};
+				//how to make your map actually display, two parameters: map canvas in the div and mapOption object
+				map = new google.maps.Map(document.getElementById("map-canvas"),
+						mapOptions);
+			}
 
-		});
-	});
+		google.maps.event.addDomListener(window, 'load', initialize);
+	
 	</script>
 
-</head>
-<body>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+		<script>
+		$(document).ready(function(){
+			$(".savedata").on("click", function(evt) {
+				console.log('1')
+				// prevents the routing href=/ on the <a>
+	            evt.preventDefault();
+	            console.log('2')
+	            // takes all the things on current target ('<a>') and turns it to a data object, setting that obj to variable params
+	            var params = $(evt.currentTarget).data();
+	            console.log('3')
+	            // .param() formats data object into parameter info
+	            var markerInfo= $.param(params);
+	            // debugging: console.log(markerInfo);
+	            // debugging: alert('clicked!');
+	            console.log(markerInfo);
+		            $.ajax(
+			            {
+			            	type: "POST",
+			            	url: "/save_marker",
+			            	data: markerInfo
+			            });
+	            console.log("4");
+			});
+		});
+	</script>
+
+{% endblock %}
+
+
+
+
+{% block content %}
 
 	<!-- data is being sent by a link(<a>) instead of a form (since we want to save the already populated marker info that the user chooses, not a form of what the user inputs) Inside the <li> is a list of what is seen on the gmaps_data.html webpage. We will use ajax (above in $(".savedata")) to send the linked info to our server where we can save the data to our DB. -->
 
@@ -50,19 +73,20 @@
 			</li>
 
 				{% if "user_id" in session %}
-					<button a href='#' name="marker-button" class="savedata" data-name="{{ item['name'] }}"
-						data-address= "{{ item['formatted_address'] }}"
-						data-place-id= "{{ item['place_id'] }}"
-						data-latitude= "{{ item['geometry']['location']['lat'] }}"
-						data-longitude= "{{ item['geometry']['location']['lng'] }}"
-						data-category= "{{ item['types'] }}"> Save Location </button>
-				{% else %}
-					<p> Log in to save this location! </p>
-
-			{% endif %}
+						<button a href='#' name="marker-button" class="savedata" data-name="{{ item['name'] }}"
+							data-address= "{{ item['formatted_address'] }}"
+							data-place-id= "{{ item['place_id'] }}"
+							data-latitude= "{{ item['geometry']['location']['lat'] }}"
+							data-longitude= "{{ item['geometry']['location']['lng'] }}"
+							data-category= "{{ item['types'] }}"> Save Location </button>
+					{% else %}
+						<p> Log in to save this location! </p>
+				{% endif %}
 
 		{% endfor %}
 	</ul>
 
-</body>
-</html>
+<div id="map-canvas"></div>
+
+
+{% endblock %}

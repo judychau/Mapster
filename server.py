@@ -1,5 +1,5 @@
 """Mapster Server"""
-from scripts import gmaps_request
+from scripts import query_api #, gmaps_request
 from jinja2 import StrictUndefined
 from flask import Flask, render_template, redirect, request, flash, session
 from flask_debugtoolbar import DebugToolbarExtension
@@ -93,16 +93,28 @@ def register_process():
         return redirect("/")
 
 
-@app.route("/gmaps_data", methods=['POST'])
-def gmaps_results():
-    """use user input (from homepage) as the query parameter of url to display search results in gmaps_data.html"""
+@app.route('/searchresults', methods=['GET'])
+def yelp_results():
+    """use user input as the query parameter of url to display search results in results.html"""
 
-    search = request.form['search'] 
-    destination = request.form['destination']
+    term = str(request.args.get('term'))
+    location = str(request.args.get('location'))
 
-    json = gmaps_request(search, destination) #results from scripts gmaps_api function
+    data = query_api(term, location)
 
-    return render_template("gmaps_data.html",json=json) #return info to html gmaps_data
+    return render_template('results.html', data=data)
+
+
+# @app.route("/gmaps_data", methods=['POST'])
+# def gmaps_results():
+#     """use user input as the query parameter of url to display search results in gmaps_data.html"""
+
+#     search = request.form['search'] 
+#     destination = request.form['destination']
+
+#     json = gmaps_request(search, destination) #results from scripts gmaps_api function
+
+#     return render_template("gmaps_data.html",json=json) #return info to html gmaps_data
 
 
 @app.route("/save_marker", methods=['POST'])
@@ -118,7 +130,7 @@ def save_marker():
 
     user_id = session.get("user_id")
 
-    check = Marker.query.filter_by(place_id=place_id).first()
+    check = Marker.query.filter_by(marker_id=marker_id).first()
 
     if not check:
     # #This will be inserted into the marker table of the DB (model.py) --dont forget to parse the category field

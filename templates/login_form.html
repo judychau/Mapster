@@ -1,8 +1,6 @@
-<!DOCTYPE html>
-<html>
-<head>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block content %}
+
     <h1>Login</h1>
     <form action="/login" method="POST">
 
@@ -27,5 +25,5 @@
 <br>
     <h3>Register</h3>
         <p><a href="/register">Click here to register!</a></p>
-</body>
-</html>
+
+{% endblock %}
