@@ -4,7 +4,7 @@ from jinja2 import StrictUndefined
 from flask import Flask, render_template, redirect, request, flash, session
 from flask_debugtoolbar import DebugToolbarExtension
 #from model import User, User_Points, Marker, Category, connect_to_db, db
-from model import connect_to_db, db, User, Marker, User_Marker, Category, Marker_Category
+from model import connect_to_db, db, User, Marker, User_Marker, Category, Marker_Category, Neighborhood, Marker_Nbhd
 
 app = Flask(__name__)
 # Required to use Flask sessions and the debug toolbar
@@ -96,25 +96,26 @@ def register_process():
 @app.route('/searchresults', methods=['GET'])
 def yelp_results():
     """use user input as the query parameter of url to display search results in results.html"""
-
+    #add sort parameter
     term = str(request.args.get('term'))
     location = str(request.args.get('location'))
+    sort = int(request.args.get('sort'))
 
-    data = query_api(term, location)
+    data = query_api(term, location, sort)
 
     return render_template('results.html', data=data)
 
 
-# @app.route("/gmaps_data", methods=['POST'])
-# def gmaps_results():
-#     """use user input as the query parameter of url to display search results in gmaps_data.html"""
+@app.route("/gmaps_data", methods=['POST'])
+def gmaps_results():
+    """use user input as the query parameter of url to display search results in gmaps_data.html"""
 
-#     search = request.form['search'] 
-#     destination = request.form['destination']
+    search = request.form['term'] 
+    destination = request.form['location']
 
-#     json = gmaps_request(search, destination) #results from scripts gmaps_api function
+    json = gmaps_request(search, destination) #results from scripts gmaps_api function
 
-#     return render_template("gmaps_data.html",json=json) #return info to html gmaps_data
+    return render_template("gmaps_data.html",json=json) #return info to html gmaps_data
 
 
 @app.route("/save_marker", methods=['POST'])
@@ -123,34 +124,38 @@ def save_marker():
 
     name = request.form.get("name") #request.args.get is when you use the "GET" method
     address = request.form.get("address")
-    place_id = request.form.get("placeId")
+    city = request.form.get("city")
+    state = request.form.get("state")
+    zipcode = request.form.get("zipcode")
+    phone = request.form.get("phone")
+    business_id = request.form.get("business_id")
+    yelp_url = request.form.get("yelp_url")
+    rating = request.form.get("rating")
+    rating_img = request.form.get("rating_img")
+    review_count = request.form.get("review_count")
     longitude = request.form.get("longitude")
     latitude = request.form.get("latitude")
     category = request.form.get("category")
+    neighborhood = request.form.get("neighborhood")
 
     user_id = session.get("user_id")
 
-    check = Marker.query.filter_by(marker_id=marker_id).first()
+    # #This will be inserted into the marker table of the DB (model.py) --dont forget to parse the category and neighborhood field
+    new_marker = Marker(name=name, address=address, city=city, state=state, zipcode=zipcode,
+    phone=phone, business_id=business_id, yelp_url=yelp_url, rating=rating, rating_img=rating_img, review_count=review_count, longitude=longitude, latitude=latitude)
+    db.session.add(new_marker)
+    db.session.commit()
 
-    if not check:
-    # #This will be inserted into the marker table of the DB (model.py) --dont forget to parse the category field
-        new_marker = Marker(name=name, address=address, place_id=place_id, longitude=longitude, latitude=latitude)
-        db.session.add(new_marker)
-        db.session.commit()
+    new_cat = category(=cat_type)
+    new_nbhd = neighborhood()
 
-        marker_id = new_marker.marker_id
+    marker_id = new_marker.marker_id
+    cat_id = new_cat.cat_id
+    nbhd_id = new_nbhd.nbhd_id
 
-        new_user_marker = User_Marker(user_id=user_id, marker_id=marker_id)
-        db.session.add(new_user_marker)
-        db.session.commit()
-
-        flash("Location added")
-        print new_marker
-        print new_user_marker
-    else:
-        flash("You already saved this location")
-
-    return "saved to database successfully"
+    new_user_marker = User_Marker(user_id=user_id, marker_id=marker_id)
+    db.session.add(new_user_marker)
+    db.session.commit()
 
 
 if __name__ == "__main__":

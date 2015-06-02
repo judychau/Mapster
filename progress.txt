@@ -92,6 +92,28 @@ May 27, 2015
 May 28, 2015
 -Fixed my save_marker session by putting it in jinga html instead of server.py
 -Added the user_markers association data in my server.py
--Tested login, logout, save_marker. EVERYTHING IS WORKING- DONE WITH MVP!=]
+-Tested login, logout, save_marker. EVERYTHING IS WORKING!
 -Looking into yelp api
+
+May 29, 2015
+-cleaned up code
+-worked on wireframe
+-looked into displaying lat/long onto a map
+
+May 30, 2015
+-finsihed wire frame
+
+May 31, 2015
+-started on yelp api connection
+
+June 1, 2015
+-connected to yelp api through a request with parameters from homepage.html
+-yelp is able to display on results.html in a table format
+-fixed data model
+-yelp connected to db/ able to add data to bd
+
+
+
+
+
 

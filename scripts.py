@@ -4,23 +4,26 @@ import pprint
 import urllib
 import urllib2
 import os #to access secrets.sh
-# GMAPS_KEY=os.environ['gmaps_key'] #'gmaps_key' from secrets.sh and passing to gmaps_key in url
 import oauth2
 import rauth
 
 
 
-# def gmaps_request(search, destination):
-#     """requests info about a place using query parameter"""
+def gmaps_request(search, destination):
+    """requests info about a place using query parameter"""
 
-#     pre_query = search + '+' + destination
-#     QUERY = pre_query.replace(' ', '+') 
+    GMAPS_KEY=os.environ['gmaps_key']  #'gmaps_key' from secrets.sh and passing to gmaps_key in url
+    pre_query = search + '+' + destination
+    QUERY = pre_query.replace(' ', '+') 
 
-#     url= 'https://maps.googleapis.com/maps/api/place/textsearch/json?query=%s&key=%s' %(QUERY, GMAPS_KEY)
+    url= 'https://maps.googleapis.com/maps/api/place/textsearch/json?query=%s&key=%s' %(QUERY, GMAPS_KEY)
 
-#     api_data = requests.get(url)
-#     data = api_data.json()
-#     return data #dictionary from json
+    api_data = requests.get(url)
+    data = api_data.json()
+
+    #*******************test*******************
+    pprint.pprint(data, indent=2)
+    # return data #dictionary from json
 
 
 
@@ -73,7 +76,7 @@ def request(host, path, url_params=None):
 
     return response
 
-def search(term, location):
+def search(term, location, sort):
     """Query the Search API by a search term and location.
     Args:
         term (str): The search term passed to the API.
@@ -85,7 +88,7 @@ def search(term, location):
     url_params = {
         'term': term.replace(' ', '+'),
         'location': location.replace(' ', '+'),
-        #'sort': sort #must add to params up top something to think about
+        'sort': sort,
         'limit': SEARCH_LIMIT
     }
     return request(API_HOST, SEARCH_PATH, url_params=url_params)
@@ -101,14 +104,14 @@ def get_business(business_id):
 
     return request(API_HOST, business_path)
 
-def query_api(term, location):
+def query_api(term, location, sort):
     """Queries the API by the input values from the user. Uses both the search and get_business function
     Args:
         term (str): The search term to query.
         location (str): The location of the business to query.
     """
     #response is a dictionary where the key is businesses and value is a list of info about the business
-    response = search(term, location)
+    response = search(term, location, sort)
     #*******************test*******************
     # print "here is the response"
     # pprint.pprint(response, indent=2)
@@ -130,13 +133,13 @@ def query_api(term, location):
                   'id': business['id'],
                   'yelp_url': business['url'], 
                   'rating': business['rating'],
+                  'url_rating_stars': business['rating_img_url'],
                   'review_count': business['review_count'],
                   'categories': ', '.join([i[0] for i in business['categories']]),
                   'neighborhoods': ', '.join(business['location'].get('neighborhoods', [])) or None,
                   # getting the key if exists, joining into string
                   # if doesnt exist, set value to empty list
                   # joining an empty list is false, so set value to none (using or)
-                  'cross_streets': business['location'].get('cross_streets'),
                   # separated latitude and longitude, does NOT account for non existent coordinates
                   'latitude': business['location']['coordinate']['latitude'],
                   'longitude': business['location']['coordinate']['longitude']} for business in businesses]

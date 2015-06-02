@@ -43,7 +43,15 @@ class Marker(db.Model):
     marker_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     name = db.Column(db.String)
     address = db.Column(db.String)
-    place_id = db.Column(db.String)
+    city = db.Column(db.String)
+    state = db.Column(db.String)
+    zipcode = db.Column(db.String)
+    phone = db.Column(db.String)
+    business_id = db.Column(db.String)
+    yelp_url = db.Column(db.String)
+    rating = db.Column(db.Integer)
+    rating_img = db.Column(db.String)
+    review_count = db.Column(db.Integer)
     longitude = db.Column(db.Float)
     latitude = db.Column(db.Float)
 
@@ -51,6 +59,7 @@ class Marker(db.Model):
     # params for relationship(class name, table name, name to call class markers
     users = db.relationship("User", secondary='user_markers', backref=db.backref("markers"))
     categories = db.relationship("Category", secondary='marker_categories', backref=db.backref("markers"))
+    neighborhoods = db.relationship("Neighborhood", secondary='marker_nbhd', backref=db.backref("markers"))
 
 class Category(db.Model):
     """category of marker, one marker has many categories"""
@@ -68,6 +77,24 @@ class Marker_Category(db.Model):
 
     marker_cat_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     category_id = db.Column(db.Integer, db.ForeignKey('categories.category_id'))
+    marker_id = db.Column(db.Integer,db.ForeignKey('markers.marker_id'))
+
+class Neighborhood(db.Model):
+    """neighhborhood of marker, one marker has many neighborhoods"""
+
+    __tablename__="neighborhoods"
+
+    nbhd_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    nbhd_name = db.Column(db.String)
+
+
+class Marker_Nbhd(db.Model):
+    """marker and neighborhood association table to show relationship, one marker has many neighborhoods"""
+
+    __tablename__="marker_nbhd"
+
+    marker_nbdh_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
+    nbhd_id = db.Column(db.Integer, db.ForeignKey('neighborhoods.nbhd_id'))
     marker_id = db.Column(db.Integer,db.ForeignKey('markers.marker_id'))
 
 
