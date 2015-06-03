@@ -112,7 +112,12 @@ June 1, 2015
 -fixed data model
 -yelp connected to db/ able to add data to bd
 
-
+June 2, 2015
+-Map appearing on mymaps.html
+-wrote the code to get user markers to show but somehow not working
+-query seem to be working but not displaying on map (getting help first thing in the morning)
+-wrote code for marker info box 
+-added a note field to my marker table for the info box
 
 
 

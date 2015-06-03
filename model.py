@@ -22,7 +22,9 @@ class User(db.Model):
     password = db.Column(db.String(64), nullable=True)
 
     def __repr__(self):
-        return "<User user_id=%s email=%s password=%s>" % (self.user_id,self.email, self.password)
+        """Provide helpful representation when printed."""
+
+        return "<User user_id=%s name=%s age=%s email=%s>" % (self.user_id, self.name, self.age, self.email)
 
 
 class User_Marker(db.Model):
@@ -33,7 +35,10 @@ class User_Marker(db.Model):
     user_marker_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     marker_id = db.Column(db.Integer, db.ForeignKey('markers.marker_id'))
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
+    note = db.Column(db.String)
 
+    def __repr__(self):
+        return "<User_Marker user_marker_id=%s marker_id=%s user_id=%s" % (self.user_marker_id, self.marker_id, self.user_id)
 
 class Marker(db.Model):
     """pin/marker info"""
@@ -54,6 +59,11 @@ class Marker(db.Model):
     review_count = db.Column(db.Integer)
     longitude = db.Column(db.Float)
     latitude = db.Column(db.Float)
+    
+    def __repr__(self):
+
+        return "<Marker marker_id=%s" % (self.marker_id)
+
 
     # Define relationship to user and category; only have to do this in one class bc User_Marker/Marker_Categorites are pure association table
     # params for relationship(class name, table name, name to call class markers

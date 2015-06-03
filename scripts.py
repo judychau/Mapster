@@ -9,21 +9,21 @@ import rauth
 
 
 
-def gmaps_request(search, destination):
-    """requests info about a place using query parameter"""
+# def gmaps_request(search, destination):
+#     """requests info about a place using query parameter"""
 
-    GMAPS_KEY=os.environ['gmaps_key']  #'gmaps_key' from secrets.sh and passing to gmaps_key in url
-    pre_query = search + '+' + destination
-    QUERY = pre_query.replace(' ', '+') 
+#     GMAPS_KEY=os.environ['gmaps_key']  #'gmaps_key' from secrets.sh and passing to gmaps_key in url
+#     pre_query = search + '+' + destination
+#     QUERY = pre_query.replace(' ', '+') 
 
-    url= 'https://maps.googleapis.com/maps/api/place/textsearch/json?query=%s&key=%s' %(QUERY, GMAPS_KEY)
+#     url= 'https://maps.googleapis.com/maps/api/place/textsearch/json?query=%s&key=%s' %(QUERY, GMAPS_KEY)
 
-    api_data = requests.get(url)
-    data = api_data.json()
+#     api_data = requests.get(url)
+#     data = api_data.json()
 
-    #*******************test*******************
-    pprint.pprint(data, indent=2)
-    # return data #dictionary from json
+#     #*******************test*******************
+#     pprint.pprint(data, indent=2)
+#     # return data #dictionary from json
 
 
 

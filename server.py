@@ -106,19 +106,19 @@ def yelp_results():
     return render_template('results.html', data=data)
 
 
-@app.route("/gmaps_data", methods=['POST'])
-def gmaps_results():
-    """use user input as the query parameter of url to display search results in gmaps_data.html"""
+# @app.route("/gmaps_data", methods=['POST'])
+# def gmaps_results():
+#     """use user input as the query parameter of url to display search results in gmaps_data.html"""
 
-    search = request.form['term'] 
-    destination = request.form['location']
+#     search = request.form['term'] 
+#     destination = request.form['location']
 
-    json = gmaps_request(search, destination) #results from scripts gmaps_api function
+#     json = gmaps_request(search, destination) #results from scripts gmaps_api function
 
-    return render_template("gmaps_data.html",json=json) #return info to html gmaps_data
+#     return render_template("gmaps_data.html",json=json) #return info to html gmaps_data
 
 
-@app.route("/save_marker", methods=['POST'])
+@app.route("/savemarker", methods=['POST'])
 def save_marker():
     """Lets users who are logged in save markers/location (save markers to db)"""
 
@@ -146,16 +146,82 @@ def save_marker():
     db.session.add(new_marker)
     db.session.commit()
 
-    new_cat = category(=cat_type)
-    new_nbhd = neighborhood()
+    # new_cat = category(=cat_type)
+    # new_nbhd = neighborhood()
 
     marker_id = new_marker.marker_id
-    cat_id = new_cat.cat_id
-    nbhd_id = new_nbhd.nbhd_id
+    # cat_id = new_cat.cat_id
+    # nbhd_id = new_nbhd.nbhd_id
 
     new_user_marker = User_Marker(user_id=user_id, marker_id=marker_id)
     db.session.add(new_user_marker)
     db.session.commit()
+
+@app.route("/mymap", methods=['GET'])
+def display_marker():
+    """display user's markers"""
+
+    user_id = session.get("user_id") #check if user is logged in
+    user = User.query.get(user_id) #query db for user in session
+    print user
+    
+    user_markers = User_Marker.query.filter(User_Marker.user_id==user_id).all()
+    print user_markers
+
+    markers = Marker.query.filter(Marker.marker_id==User_Marker.marker_id).all()
+    print markers
+
+    json_compiled = {}
+
+    for marker in markers:
+        json_compiled[marker.marker_id] = {}
+        json_compiled[marker.marker_id]['marker_id'] = marker.marker_id
+        json_compiled[marker.marker_id]['name'] = marker.name
+        json_compiled[marker.marker_id]['address'] = marker.address
+        json_compiled[marker.marker_id]['city'] = marker.city
+        json_compiled[marker.marker_id]['state'] = marker.state
+        json_compiled[marker.marker_id]['zipcode'] = marker.zipcode
+        json_compiled[marker.marker_id]['phone'] = marker.phone
+        json_compiled[marker.marker_id]['yelp_url'] = marker.yelp_url
+        json_compiled[marker.marker_id]['rating'] = marker.rating
+        json_compiled[marker.marker_id]['rating_img'] = marker.rating_img
+        json_compiled[marker.marker_id]['review_count'] = marker.review_count
+        json_compiled[marker.marker_id]['longitude'] = marker.longitude
+        json_compiled[marker.marker_id]['latitude'] = marker.latitude
+        # json_compiled[marker.marker_id]['category'] = marker.category
+        # json_compiled[marker.marker_id]['neighborhood'] = marker.neighborhood
+
+    return render_template("mymap.html", markers=json_compiled)
+    print json_compiled
+
+@app.route("/mymap/<int:marker_id>", methods=['POST'])
+def marker_note():
+    """user can add/edit marker note"""
+
+    note = str(request.form["note"])
+
+    user_id = session.get("user_id")
+    if not user_id:
+        raise Exception("No user logged in.")
+
+    user_marker = User_Marker.query.filter_by(user_id=user_id, marker_id=marker_id).first()
+
+    if user_marker:
+        user_marker.note = note
+        flash("Note updated.")
+
+    else:
+        user_marker = User_Marker(user_id=user_id, marker_id=marker_id, note=note)
+        flash("Note added.")
+        db.session.add(user_marker)
+
+    db.session.commit()
+
+    return redirect("/mymaps/%s") % marker_id 
+
+
+
+
 
 
 if __name__ == "__main__":

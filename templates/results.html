@@ -2,6 +2,8 @@
 
 {% block head %}
 
+<p><a href="/mymap">My Map</a></p>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 
   <script>
@@ -22,7 +24,7 @@
               $.ajax(
                 {
                   type: "POST",
-                  url: "/save_marker",
+                  url: "/savemarker",
                   data: markerInfo
                 });
             console.log("4");
@@ -34,49 +36,52 @@
 
 {% block content %}
 <div class="row">
-        <div class="col-md-6">
-          <table>
-            <thead>
-              <tr>
-                <th>Category</th>
-                <th>Ratings</th>
-                <th>Review Count</th>
-                <th>Name</th>
-                <th>Add to Map</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for business in data %}
-                <td> {{ business['categories'] }} </td>
-                <td> {{ business['rating'] }} </td>
-                <td> {{ business['review_count'] }} </td>
-                <td> <a href="{{ business['yelp_url'] }}">{{ business['name'] }} </a></td>
-                <td>        
-                  {% if "user_id" in session %}
-                    <button a href='#' name="marker-button" class="savedata" data-name="{{ business['name'] }}"
-                    data-address="{{ business['address'] }}"
-                    data-city="{{ business['city'] }}"
-                    data-state="{{ business['state'] }}"
-                    data-zipcode="{{ business['zipcode'] }}"
-                    data-phone="{{ business['phone'] }}"
-                    data-categories="{{ business['categories'] }}"
-                    data-yelp-id="{{ business['id'] }}"
-                    data-yelp-url="{{ business['yelp_url'] }}"
-                    data-rating="{{ business['rating'] }}"
-                    data-url-rating-stars="{{ business['url_rating_stars'] }}"
-                    data-neighborhoods="{{ business['neighborhoods'] }}"
-                    data-review-count="{{ business['review_count'] }}"
-                    data-latitude="{{ business['latitude'] }}"
-                    data-longitude="{{ business['longitude'] }}"> Add</button>
-                  {% else %}
-                    <p> Log in to add this location to your map! </p>
-                  {% endif %}
-                </td>
-              {% endfor %}
-            </tbody>
-          </table>
+      <table>
+          <thead>
 
-          </div>
+            <tr>
+              <th>Category</th>
+              <th>Ratings</th>
+              <th>Review Count</th>
+              <th>Name</th>
+              <th>Add to Map</th>
+            </tr>
+
+          </thead>
+
+
+
+          <tbody>
+
+            {% for business in data %}
+              <td> {{ business['categories'] }} </td>
+              <td> {{ business['rating'] }} </td>
+              <td> {{ business['review_count'] }} </td>
+              <td> <a href="{{ business['yelp_url'] }}">{{ business['name'] }} </a> </td>
+              <td> {% if "user_id" in session %}
+                      <button a href='#' name="marker-button" class="savedata" data-name="{{ business['name'] }}"
+                      data-address="{{ business['address'] }}"
+                      data-city="{{ business['city'] }}"
+                      data-state="{{ business['state'] }}"
+                      data-zipcode="{{ business['zipcode'] }}"
+                      data-phone="{{ business['phone'] }}"
+                      data-categories="{{ business['categories'] }}"
+                      data-yelp-id="{{ business['id'] }}"
+                      data-yelp-url="{{ business['yelp_url'] }}"
+                      data-rating="{{ business['rating'] }}"
+                      data-url-rating-stars="{{ business['url_rating_stars'] }}"
+                      data-neighborhoods="{{ business['neighborhoods'] }}"
+                      data-review-count="{{ business['review_count'] }}"
+                      data-latitude="{{ business['latitude'] }}"
+                      data-longitude="{{ business['longitude'] }}"> Add</button>
+                  {% else %}
+                      <p> Log in to add this location to your map! </p>
+                  {% endif %}
+              </td>
+            {% endfor %}
+                
+          </tbody>
+      </table>
 </div>
 
 {% endblock %}
