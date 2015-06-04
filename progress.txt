@@ -119,6 +119,11 @@ June 2, 2015
 -wrote code for marker info box 
 -added a note field to my marker table for the info box
 
+June 3, 2015
+-markers are displaying on map
+-worked on parsing category field (taking to long, will come back to it)
+-looked into modals and jquery light box
+
 
 
 

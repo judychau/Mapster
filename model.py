@@ -79,6 +79,10 @@ class Category(db.Model):
     category_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     category_type = db.Column(db.String)
 
+    def __repr__(self):
+
+        return "<Category category_type=%s" % (self.category_type)
+
 
 class Marker_Category(db.Model):
     """marker and category association table to show relationship, one marker has many categories"""

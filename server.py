@@ -106,18 +106,6 @@ def yelp_results():
     return render_template('results.html', data=data)
 
 
-# @app.route("/gmaps_data", methods=['POST'])
-# def gmaps_results():
-#     """use user input as the query parameter of url to display search results in gmaps_data.html"""
-
-#     search = request.form['term'] 
-#     destination = request.form['location']
-
-#     json = gmaps_request(search, destination) #results from scripts gmaps_api function
-
-#     return render_template("gmaps_data.html",json=json) #return info to html gmaps_data
-
-
 @app.route("/savemarker", methods=['POST'])
 def save_marker():
     """Lets users who are logged in save markers/location (save markers to db)"""
@@ -135,27 +123,27 @@ def save_marker():
     review_count = request.form.get("review_count")
     longitude = request.form.get("longitude")
     latitude = request.form.get("latitude")
-    category = request.form.get("category")
-    neighborhood = request.form.get("neighborhood")
 
     user_id = session.get("user_id")
 
-    # #This will be inserted into the marker table of the DB (model.py) --dont forget to parse the category and neighborhood field
+    #This will be inserted into the marker table of the DB (model.py)
     new_marker = Marker(name=name, address=address, city=city, state=state, zipcode=zipcode,
     phone=phone, business_id=business_id, yelp_url=yelp_url, rating=rating, rating_img=rating_img, review_count=review_count, longitude=longitude, latitude=latitude)
     db.session.add(new_marker)
     db.session.commit()
 
-    # new_cat = category(=cat_type)
-    # new_nbhd = neighborhood()
-
     marker_id = new_marker.marker_id
-    # cat_id = new_cat.cat_id
-    # nbhd_id = new_nbhd.nbhd_id
 
     new_user_marker = User_Marker(user_id=user_id, marker_id=marker_id)
     db.session.add(new_user_marker)
     db.session.commit()
+    
+@app.route("/mycat", methods=['POST'])
+def mycat():
+    """add user customized category to db"""
+    mycat = int(request.args.get('mycat'))
+
+    my_cat = Marker
 
 @app.route("/mymap", methods=['GET'])
 def display_marker():
@@ -163,13 +151,9 @@ def display_marker():
 
     user_id = session.get("user_id") #check if user is logged in
     user = User.query.get(user_id) #query db for user in session
-    print user
-    
-    user_markers = User_Marker.query.filter(User_Marker.user_id==user_id).all()
-    print user_markers
 
+    user_markers = User_Marker.query.filter(User_Marker.user_id==user_id).all()
     markers = Marker.query.filter(Marker.marker_id==User_Marker.marker_id).all()
-    print markers
 
     json_compiled = {}
 
@@ -192,11 +176,11 @@ def display_marker():
         # json_compiled[marker.marker_id]['neighborhood'] = marker.neighborhood
 
     return render_template("mymap.html", markers=json_compiled)
-    print json_compiled
+    
 
 @app.route("/mymap/<int:marker_id>", methods=['POST'])
 def marker_note():
-    """user can add/edit marker note"""
+    """user can add/edit marker note""" #need to check why it doesnt works
 
     note = str(request.form["note"])
 
@@ -220,6 +204,19 @@ def marker_note():
     return redirect("/mymaps/%s") % marker_id 
 
 
+
+@app.route("/mymap", methods=['GET'])
+def marker_sort():
+    """sort map markers through a check box or button"""
+
+    user_id = session.get("user_id") 
+    user = User.query.get(user_id) 
+
+    user_markers = User_Marker.query.filter(User_Marker.user_id==user_id).all()
+    markers = Marker.query.filter(Marker.marker_id==User_Marker.marker_id).all()
+
+    #get the category and neighborhood situation sorted out before you can sort
+    #*priority* get modal window done before you can sort 
 
 
 

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block head %}
-
+<p><a href="/mymap">My Map</a></p>
 
 
 {% endblock %}
@@ -26,17 +26,17 @@
         </div>
 
         <div class="form-group">
-            <label>Best Matched
-                <input type="radio" name="sort" value="0" required class="form-control">
-            </label>
-            <label>Distance
-                <input type="radio" name="sort" value="1" required class="form-control">
-            <label>Highest Rated
-                <input type="radio" name="sort" value="2" required class="form-control">
-            </label>
+                <label>Best Matched
+                    <input type="radio" name="sort" value="0" required class="form-control">
+                </label>
+            <br>
+                <label>Distance
+                    <input type="radio" name="sort" value="1" required class="form-control">
+            <br>
+                <label>Highest Rated
+                    <input type="radio" name="sort" value="2" required class="form-control">
+                </label>
         </div>
-        
-
 
         <div class="form-group">
             <input type="submit" value="Search" class="button">
