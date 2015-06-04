@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<!--how to make your map actually display, three parameters: map canvas in the div, mapcanvas in the style, and mapOption object. Also, dont forget about the api scripts(2)-->
+
+<style>
+    html, body {width: 100%; height: 100%}
+    body {margin: 0; padding: 0; overflow:hidden;}
+    #map-canvas, #map-container {height: 600px; margin: 0px;}
+    #map-container {padding-top: 50px;}
+</style>
+
+<script src="https://maps.googleapis.com/maps/api/js"></script>
+<script src="https://code.jquery.com/jquery.js"></script>
+
+<script>		
+	function initialize() {
+		var mapOptions = {
+			zoom: 12,
+    		panControl: true,
+    		streetViewControl: true
+		};
+		
+		var map = new google.maps.Map(document.getElementById('map-canvas'),
+		  mapOptions);
+
+		// HTML5 geolocation for user location(if you dont have geolocation, you would have to put in a center in mapOptions)
+		if(navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(function(position) {
+		  		var pos = new google.maps.LatLng(position.coords.latitude,
+		                                   position.coords.longitude);
+		  		map.setCenter(pos);
+			}, function() {
+		  		handleNoGeolocation(true);
+			});
+		}else {
+		handleNoGeolocation(false);
+		}	
+
+
+		// Define global infowindow   
+        // If you do this inside the loop, the windows do
+        // not automatically close when a new marker is clicked 
+        var infowindow = new google.maps.InfoWindow({
+            width: 200
+        });
+
+        // Get the data from flask
+        var markers = {{ markers|tojson|safe }};
+       	console.log(markers); 
+
+        // Attach markers to each location in data
+        // Assign other pieces of data to variables
+		for (var key in markers) {
+			var myLatlng = new google.maps.LatLng(
+                    markers[key]['latitude'],
+                    markers[key]['longitude']);
+			var event_title = markers[key]['name'];
+			// console.log(myLatlng); 
+            
+            // Define the marker   
+            var star = '/static/star_red.png';		 
+			var marker = new google.maps.Marker({
+				position: myLatlng,
+				map: map,
+				title: event_title,
+				icon: star
+			});
+
+            // Define the content of the infowindow
+            var contentString = '<div class="window-content">' +
+                '<p><strong>Name: </strong>' + markers[key]['name'] + '</p>' +
+                '<p><strong>Address: </strong>' + markers[key]['address'] + ' ' + markers[key]['city'] + ' ' + markers[key]['state'] + ' ' + markers[key]['zipcode'] + '</p>' +
+                '<p><strong>Phone: </strong>' + markers[key]['phone'] + '</p>' +
+                '<p><strong>Yelp: </strong>' + markers[key]['yelp_url'] + '</p>' +
+                '<p><strong>Good for: </strong>' + markers[key]['category'] + '</p>' +
+                '<p><strong>Neighborhood: </strong>' + markers[key]['neighborhood'] + '</p>' +
+                '<form action="mymap/' + markers[key]['marker_id'] + '" method="POST"><div class="form-group"><label>Notes:<input type="text" name="note" required class="form-control"></label></div><div class="form-group"><input type="submit" value="save" class="button"></div></form>' +
+	                '</div>';
+      
+            bindInfoWindow(marker, map, infowindow, contentString);
+		}
+
+        function bindInfoWindow(marker, map, infowindow, html) {
+            google.maps.event.addListener(marker, 'click', function(){
+                infowindow.close();
+                infowindow.setContent(html);
+                infowindow.open(map, marker);
+            });
+        }
+    }
+ 
+google.maps.event.addDomListener(window, 'load', initialize);
+
+</script>
+
+{% endblock %}
+
+
+{% block content %}
+<div id="filters"></div>
+
+<div class="col-md-6">
+	<div id="map-container">
+	<div id="map-canvas"></div>
+	</div>
+</div>
+
+{% endblock %}
