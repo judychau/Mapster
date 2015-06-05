@@ -4,7 +4,7 @@ from jinja2 import StrictUndefined
 from flask import Flask, render_template, redirect, request, flash, session
 from flask_debugtoolbar import DebugToolbarExtension
 #from model import User, User_Points, Marker, Category, connect_to_db, db
-from model import connect_to_db, db, User, Marker, User_Marker, Category, Marker_Category, Neighborhood, Marker_Nbhd
+from model import connect_to_db, db, User, Marker, User_Marker
 
 app = Flask(__name__)
 # Required to use Flask sessions and the debug toolbar
@@ -123,12 +123,15 @@ def save_marker():
     review_count = request.form.get("review_count")
     longitude = request.form.get("longitude")
     latitude = request.form.get("latitude")
+    map_cat = request.form.get("mycat")
+    note = request.form.get("note")
 
     user_id = session.get("user_id")
 
     #This will be inserted into the marker table of the DB (model.py)
     new_marker = Marker(name=name, address=address, city=city, state=state, zipcode=zipcode,
-    phone=phone, business_id=business_id, yelp_url=yelp_url, rating=rating, rating_img=rating_img, review_count=review_count, longitude=longitude, latitude=latitude)
+    phone=phone, business_id=business_id, yelp_url=yelp_url, rating=rating, rating_img=rating_img, 
+    review_count=review_count, longitude=longitude, latitude=latitude, map_cat=map_cat, note=note)
     db.session.add(new_marker)
     db.session.commit()
 
@@ -137,17 +140,12 @@ def save_marker():
     new_user_marker = User_Marker(user_id=user_id, marker_id=marker_id)
     db.session.add(new_user_marker)
     db.session.commit()
-    
-@app.route("/mycat", methods=['POST'])
-def mycat():
-    """add user customized category to db"""
-    mycat = int(request.args.get('mycat'))
 
-    my_cat = Marker
+
 
 @app.route("/mymap", methods=['GET'])
 def display_marker():
-    """display user's markers"""
+    """get all user marker data from db to display on map"""
 
     user_id = session.get("user_id") #check if user is logged in
     user = User.query.get(user_id) #query db for user in session
@@ -172,7 +170,7 @@ def display_marker():
         json_compiled[marker.marker_id]['review_count'] = marker.review_count
         json_compiled[marker.marker_id]['longitude'] = marker.longitude
         json_compiled[marker.marker_id]['latitude'] = marker.latitude
-        # json_compiled[marker.marker_id]['category'] = marker.category
+        json_compiled[marker.marker_id]['map_cat'] = marker.map_cat
         # json_compiled[marker.marker_id]['neighborhood'] = marker.neighborhood
 
     return render_template("mymap.html", markers=json_compiled)

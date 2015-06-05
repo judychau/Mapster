@@ -124,6 +124,14 @@ June 3, 2015
 -worked on parsing category field (taking to long, will come back to it)
 -looked into modals and jquery light box
 
+June 4, 2015
+-Tyler helped me get modal window working
+-have some save to db issues
+
+June 5, 2015
+-db issue solved, data could just be passed as var params
+-also, prevent default was needed bc the submit button was being wacky and defaulting it to something else (very good to know)
+
 
 
 

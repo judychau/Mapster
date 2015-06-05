@@ -35,7 +35,7 @@ class User_Marker(db.Model):
     user_marker_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
     marker_id = db.Column(db.Integer, db.ForeignKey('markers.marker_id'))
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
-    note = db.Column(db.String)
+    
 
     def __repr__(self):
         return "<User_Marker user_marker_id=%s marker_id=%s user_id=%s" % (self.user_marker_id, self.marker_id, self.user_id)
@@ -59,6 +59,8 @@ class Marker(db.Model):
     review_count = db.Column(db.Integer)
     longitude = db.Column(db.Float)
     latitude = db.Column(db.Float)
+    map_cat = db.Column(db.String)
+    note = db.Column(db.String)
     
     def __repr__(self):
 
@@ -68,48 +70,6 @@ class Marker(db.Model):
     # Define relationship to user and category; only have to do this in one class bc User_Marker/Marker_Categorites are pure association table
     # params for relationship(class name, table name, name to call class markers
     users = db.relationship("User", secondary='user_markers', backref=db.backref("markers"))
-    categories = db.relationship("Category", secondary='marker_categories', backref=db.backref("markers"))
-    neighborhoods = db.relationship("Neighborhood", secondary='marker_nbhd', backref=db.backref("markers"))
-
-class Category(db.Model):
-    """category of marker, one marker has many categories"""
-
-    __tablename__="categories"
-
-    category_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    category_type = db.Column(db.String)
-
-    def __repr__(self):
-
-        return "<Category category_type=%s" % (self.category_type)
-
-
-class Marker_Category(db.Model):
-    """marker and category association table to show relationship, one marker has many categories"""
-
-    __tablename__="marker_categories"
-
-    marker_cat_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    category_id = db.Column(db.Integer, db.ForeignKey('categories.category_id'))
-    marker_id = db.Column(db.Integer,db.ForeignKey('markers.marker_id'))
-
-class Neighborhood(db.Model):
-    """neighhborhood of marker, one marker has many neighborhoods"""
-
-    __tablename__="neighborhoods"
-
-    nbhd_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    nbhd_name = db.Column(db.String)
-
-
-class Marker_Nbhd(db.Model):
-    """marker and neighborhood association table to show relationship, one marker has many neighborhoods"""
-
-    __tablename__="marker_nbhd"
-
-    marker_nbdh_id = db.Column(db.Integer, autoincrement=True, primary_key=True)
-    nbhd_id = db.Column(db.Integer, db.ForeignKey('neighborhoods.nbhd_id'))
-    marker_id = db.Column(db.Integer,db.ForeignKey('markers.marker_id'))
 
 
 def connect_to_db(app):

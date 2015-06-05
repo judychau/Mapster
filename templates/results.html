@@ -4,39 +4,34 @@
 
 <p><a href="/mymap">My Map</a></p>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-
   <script>
+  var params
+
   $(document).ready(function(){
+      $("#modal-save").on("click", function(evt){
+          evt.preventDefault();
+            var category = $('#mycat').serializeArray()[0].value
+            var note = $('#mycat').serializeArray()[1].value
+            params.category=category
+            params.note=note
+
+            $.post(
+                    "/savemarker",
+                    params,
+                    function(data){
+                      alert(data.message);
+                  });
+    });
+
     $(".savedata").on("click", function(evt) {
-      console.log('1')
-      // prevents the routing href=/ on the <a>
-            evt.preventDefault();
-            console.log('2')
-            // takes all the things on current target ('<a>') and turns it to a data object, setting that obj to variable params
-            var params = $(evt.currentTarget).data();
-            console.log('3')
-            // .param() formats data object into parameter info
-            var markerInfo= $.param(params);
-            // debugging: console.log(markerInfo);
-            // debugging: alert('clicked!');
-            console.log(markerInfo);
-              $.ajax(
-                {
-                  type: "POST",
-                  url: "/savemarker",
-                  data: markerInfo
-                });
-            console.log("4");
+            evt.preventDefault(); // prevents the routing href=/ on the <a>
+            params = $(evt.currentTarget).data(); // takes all the things on current target ('<a>') and turns it to a data object, setting that obj to variable params
+            
+              
     });
   });
 </script>
 
-<script>
-  $(document).ready(function(){
-    $("#myModal").modal('show');
-  });
-</script>
 
 {% endblock %}
 
@@ -65,7 +60,7 @@
               <td> {{ business['review_count'] }} </td>
               <td> <a href="{{ business['yelp_url'] }}">{{ business['name'] }} </a> </td>
               <td> {% if "user_id" in session %}
-                      <button a href='#' name="marker-button" class="savedata" data-name="{{ business['name'] }}"
+                      <button a href='#' name="marker-button" class="savedata" data-name="{{ business['name'] }}" data-toggle="modal" data-target="#myModal"
                       data-address="{{ business['address'] }}"
                       data-city="{{ business['city'] }}"
                       data-state="{{ business['state'] }}"
@@ -90,41 +85,59 @@
       </table>
 </div>
 
-<div id="myModal" class="modal fade">
+
+ <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title">Confirmation</h4>
-            </div>
-
-            <div class="modal-body" methods="POST">
-              <form class="modal-body" method="POST">
-                  <input type="radio" name="mycat" value="hotel">Hotel
-                <br>
-                  <input type="radio" name="mycat" value="sightseeing">Sightseeing
-                <br>
-                  <input type="radio" name="mycat" value="activities">Activity
-                <br>
-                <br>
-                  <label>Food</label>
-                <br>
-                  <input type="radio" name="mycat" value="food">Breakfast
-                <br>
-                  <input type="radio" name="mycat" value="food">Lunch
-                <br>
-                  <input type="radio" name="mycat" value="food">Dinner
-                <br>
-                  <input type="radio" name="mycat" value="food">Snack
-              </form>
-            </div>
-
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary">Save</button>
-            </div>
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">My map</h4>
         </div>
+        <div class="modal-body">
+            <form id="mycat" name="mycat" action="#">
+              <label>Place:
+                  <br>
+                    <input type="radio" name="mycat" value="hotel">Hotel
+                  <br>
+                    <input type="radio" name="mycat" value="sightseeing">Sightseeing
+                  <br>
+                    <input type="radio" name="mycat" value="activities">Activity
+                  <br>
+                  <br>
+              </label>
+              
+              <label>Meal:
+                  <br>
+                    <input type="radio" name="mycat" value="breakfast">Breakfast
+                  <br>
+                    <input type="radio" name="mycat" value="lunch">Lunch
+                  <br>
+                    <input type="radio" name="mycat" value="dinner">Dinner
+                  <br>
+                    <input type="radio" name="mycat" value="snack">Snack
+                  <br>
+              </label>
+                  <br>
+
+              <label>Notes:
+                  <br>
+                    <input type="text" name="note" class="form-control">
+              </label>
+                  <br>
+                    <input id="modal-save" type="submit" data-dismiss="modal" value="Save to map" class="btn">
+            </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn" id="close_btn" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+      
     </div>
-</div>
+  </div>
+
+
+
 
 {% endblock %}
