@@ -9,21 +9,21 @@ import rauth
 
 
 
-# def gmaps_request(search, destination):
-#     """requests info about a place using query parameter"""
+def gmaps_request(search, destination):
+    """requests info about a place using query parameter"""
 
-#     GMAPS_KEY=os.environ['gmaps_key']  #'gmaps_key' from secrets.sh and passing to gmaps_key in url
-#     pre_query = search + '+' + destination
-#     QUERY = pre_query.replace(' ', '+') 
+    GMAPS_KEY=os.environ['gmaps_key']  #'gmaps_key' from secrets.sh and passing to gmaps_key in url
+    pre_query = search + '+' + destination
+    QUERY = pre_query.replace(' ', '+') 
 
-#     url= 'https://maps.googleapis.com/maps/api/place/textsearch/json?query=%s&key=%s' %(QUERY, GMAPS_KEY)
+    url= 'https://maps.googleapis.com/maps/api/place/textsearch/json?query=%s&key=%s' %(QUERY, GMAPS_KEY)
 
-#     api_data = requests.get(url)
-#     data = api_data.json()
+    api_data = requests.get(url)
+    data = api_data.json()
 
-#     #*******************test*******************
-#     pprint.pprint(data, indent=2)
-#     # return data #dictionary from json
+    #*******************test*******************
+    pprint.pprint(data, indent=2)
+    # return data #dictionary from json
 
 
 
@@ -137,10 +137,6 @@ def query_api(term, location, sort):
                   'review_count': business['review_count'],
                   'categories': ', '.join([i[0] for i in business['categories']]),
                   'neighborhoods': ', '.join(business['location'].get('neighborhoods', [])) or None,
-                  # getting the key if exists, joining into string
-                  # if doesnt exist, set value to empty list
-                  # joining an empty list is false, so set value to none (using or)
-                  # separated latitude and longitude, does NOT account for non existent coordinates
                   'latitude': business['location']['coordinate']['latitude'],
                   'longitude': business['location']['coordinate']['longitude']} for business in businesses]
     

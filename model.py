@@ -60,6 +60,7 @@ class Marker(db.Model):
     longitude = db.Column(db.Float)
     latitude = db.Column(db.Float)
     map_cat = db.Column(db.String)
+    neighborhood = db.Column(db.String)
     note = db.Column(db.String)
     
     def __repr__(self):

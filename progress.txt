@@ -132,6 +132,8 @@ June 5, 2015
 -db issue solved, data could just be passed as var params
 -also, prevent default was needed bc the submit button was being wacky and defaulting it to something else (very good to know)
 
+June 6, 2015
+-fixed info window display problem
 
 
 

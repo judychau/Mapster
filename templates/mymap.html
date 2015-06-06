@@ -4,16 +4,19 @@
 <!--how to make your map actually display, three parameters: map canvas in the div, mapcanvas in the style, and mapOption object. Also, dont forget about the api scripts(2)-->
 
 <style>
-    #map-canvas {
-    	height: 600px; 
-    	margin: 0px;
-    }
-    .container-fluid{
-    	height: 100px;
-    	width: 100px;
-    	float: left;
-    	text-align: center;
-    }
+	#mapContainer {
+	    width: 80%;
+	    height: 600px;
+	    margin: 0;
+	    padding: 0;
+	    display: inline-block;
+	    float: left;
+	}
+
+	#map-canvas {
+	    width: 100%;
+	    height: 100%;
+	}
 
 </style>
 
@@ -35,15 +38,14 @@
 		if(navigator.geolocation) {
 			navigator.geolocation.getCurrentPosition(function(position) {
 		  		var pos = new google.maps.LatLng(position.coords.latitude,
-		                                   position.coords.longitude);
-		  		map.setCenter(pos);
+		            position.coords.longitude);
+		  			map.setCenter(pos);
 			}, function() {
 		  		handleNoGeolocation(true);
 			});
-		}else {
+		} else {
 		handleNoGeolocation(false);
 		}	
-
 
 		// Define global infowindow   
         // If you do this inside the loop, the windows do
@@ -77,9 +79,9 @@
                 '<p><strong>Name: </strong>' + markers[key]['name'] + '</p>' +
                 '<p><strong>Address: </strong>' + markers[key]['address'] + ' ' + markers[key]['city'] + ' ' + markers[key]['state'] + ' ' + markers[key]['zipcode'] + '</p>' +
                 '<p><strong>Phone: </strong>' + markers[key]['phone'] + '</p>' +
-                '<p><strong>Yelp: </strong>' + markers[key]['yelp_url'] + '</p>' +
-                '<p><strong>Good for: </strong>' + markers[key]['category'] + '</p>' +
+                '<p><strong>Good for: </strong>' + markers[key]['map_cat'] + '</p>' +
                 '<p><strong>Neighborhood: </strong>' + markers[key]['neighborhood'] + '</p>' +
+                '<p><strong>Yelp: </strong>' + markers[key]['yelp_url'] + '</p>' +
                 '<form action="mymap/' + markers[key]['marker_id'] + '" method="POST"><div class="form-group"><label>Notes:<input type="text" name="note" required class="form-control"></label></div><div class="form-group"><input type="submit" value="save" class="button"></div></form>' +
 	                '</div>';
       
@@ -93,6 +95,7 @@
                 infowindow.open(map, marker);
             });
         }
+
     }
  
 google.maps.event.addDomListener(window, 'load', initialize);
@@ -108,13 +111,12 @@ google.maps.event.addDomListener(window, 'load', initialize);
 
 
 
-<div class="container-fluid">
-	<div id='content'>
-		<p> layer queries go here when I figure it out</p>
-	</div>
-</div>
+<!-- GOOGLE MAP -->
 
-<div id="map-canvas"></div>
+<div id="mapContainer">
+    <a name="google-map"></a>
+    <div id="map-canvas" class="img-rounded"></div>
+</div>
 
 
 

@@ -116,14 +116,15 @@ def save_marker():
     state = request.form.get("state")
     zipcode = request.form.get("zipcode")
     phone = request.form.get("phone")
-    business_id = request.form.get("business_id")
-    yelp_url = request.form.get("yelp_url")
+    business_id = request.form.get("id")
+    yelp_url = request.form.get("yelpUrl")
     rating = request.form.get("rating")
-    rating_img = request.form.get("rating_img")
-    review_count = request.form.get("review_count")
+    rating_img = request.form.get("urlRatingStars")
+    review_count = request.form.get("reviewCount")
     longitude = request.form.get("longitude")
     latitude = request.form.get("latitude")
-    map_cat = request.form.get("mycat")
+    map_cat = request.form.get("category")
+    neighborhood = request.form.get("neighborhoods")
     note = request.form.get("note")
 
     user_id = session.get("user_id")
@@ -131,7 +132,7 @@ def save_marker():
     #This will be inserted into the marker table of the DB (model.py)
     new_marker = Marker(name=name, address=address, city=city, state=state, zipcode=zipcode,
     phone=phone, business_id=business_id, yelp_url=yelp_url, rating=rating, rating_img=rating_img, 
-    review_count=review_count, longitude=longitude, latitude=latitude, map_cat=map_cat, note=note)
+    review_count=review_count, longitude=longitude, latitude=latitude, map_cat=map_cat, neighborhood=neighborhood, note=note)
     db.session.add(new_marker)
     db.session.commit()
 
@@ -171,10 +172,13 @@ def display_marker():
         json_compiled[marker.marker_id]['longitude'] = marker.longitude
         json_compiled[marker.marker_id]['latitude'] = marker.latitude
         json_compiled[marker.marker_id]['map_cat'] = marker.map_cat
-        # json_compiled[marker.marker_id]['neighborhood'] = marker.neighborhood
+        json_compiled[marker.marker_id]['neighborhood'] = marker.neighborhood
+        json_compiled[marker.marker_id]['note'] = marker.note
 
     return render_template("mymap.html", markers=json_compiled)
     
+
+
 
 @app.route("/mymap/<int:marker_id>", methods=['POST'])
 def marker_note():
@@ -200,23 +204,6 @@ def marker_note():
     db.session.commit()
 
     return redirect("/mymaps/%s") % marker_id 
-
-
-
-@app.route("/mymap", methods=['GET'])
-def marker_sort():
-    """sort map markers through a check box or button"""
-
-    user_id = session.get("user_id") 
-    user = User.query.get(user_id) 
-
-    user_markers = User_Marker.query.filter(User_Marker.user_id==user_id).all()
-    markers = Marker.query.filter(Marker.marker_id==User_Marker.marker_id).all()
-
-    #get the category and neighborhood situation sorted out before you can sort
-    #*priority* get modal window done before you can sort 
-
-
 
 
 if __name__ == "__main__":
