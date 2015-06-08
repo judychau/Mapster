@@ -28,7 +28,6 @@ def gmaps_request(search, destination):
 
 
 API_HOST = 'api.yelp.com'
-SEARCH_LIMIT = 3
 SEARCH_PATH = '/v2/search/'
 BUSINESS_PATH = '/v2/business/'
 CONSUMER_KEY = os.environ['CONSUMER_KEY']
@@ -89,7 +88,6 @@ def search(term, location, sort):
         'term': term.replace(' ', '+'),
         'location': location.replace(' ', '+'),
         'sort': sort,
-        'limit': SEARCH_LIMIT
     }
     return request(API_HOST, SEARCH_PATH, url_params=url_params)
 

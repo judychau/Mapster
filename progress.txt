@@ -134,6 +134,17 @@ June 5, 2015
 
 June 6, 2015
 -fixed info window display problem
+-tried to get markers to display on click, broke my code, need help!
+
+June 7, 2015
+-Started bootstrap on my app
+-css and bootstrap review
+
+June 8, 2015
+-Got my markers to display on click by categories!
+
+
+
 
 
 

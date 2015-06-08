@@ -2,8 +2,6 @@
 
 {% block head %}
 
-<p><a href="/mymap">My Map</a></p>
-
   <script>
   var params
 
@@ -34,55 +32,93 @@
 {% endblock %}
 
 {% block content %}
-<div class="row">
-      <table>
-          <thead>
+<div class="container-fluid">
 
-            <tr>
-              <th>Category</th>
-              <th>Ratings</th>
-              <th>Review Count</th>
-              <th>Name</th>
-              <th>Add to Map</th>
-            </tr>
+    <form action="/searchresults" method="GET">
 
-          </thead>
+      <div class="form-group">
+        <div style="float: left">
+              <label>Where are you going?:
+                  <input type="text" name="location" required class="form-control">
+              </label>
 
+              <label>What are you looking for?:
+                  <input type="text" name="term" required class="form-control">
+              </label>
+        </div>
+        <div style="float: left">
+              <label>Best Matched
+                  <input type="radio" name="sort" value="0" class="radio">
+              </label>
+              
+              <label>Distance
+                  <input type="radio" name="sort" value="1" class="radio">
+              </label>
 
+              <label>Highest Rated
+                  <input type="radio" name="sort" value="2" class="radio">
+              </label>
+        </div>
+              <input type="submit" value="Search" class="btn btn-default">
 
-          <tbody>
+      </div>
 
-            {% for business in data %}
-              <td> {{ business['categories'] }} </td>
-              <td> {{ business['rating'] }} </td>
-              <td> {{ business['review_count'] }} </td>
-              <td> <a href="{{ business['yelp_url'] }}">{{ business['name'] }} </a> </td>
-              <td> {% if "user_id" in session %}
-                      <button a href='#' name="marker-button" class="savedata" data-name="{{ business['name'] }}" data-toggle="modal" data-target="#myModal"
-                      data-address="{{ business['address'] }}"
-                      data-city="{{ business['city'] }}"
-                      data-state="{{ business['state'] }}"
-                      data-zipcode="{{ business['zipcode'] }}"
-                      data-phone="{{ business['phone'] }}"
-                      data-categories="{{ business['categories'] }}"
-                      data-yelp-id="{{ business['id'] }}"
-                      data-yelp-url="{{ business['yelp_url'] }}"
-                      data-rating="{{ business['rating'] }}"
-                      data-url-rating-stars="{{ business['url_rating_stars'] }}"
-                      data-neighborhoods="{{ business['neighborhoods'] }}"
-                      data-review-count="{{ business['review_count'] }}"
-                      data-latitude="{{ business['latitude'] }}"
-                      data-longitude="{{ business['longitude'] }}"> Add</button>
-                  {% else %}
-                      <p> Log in to add this location to your map! </p>
-                  {% endif %}
-              </td>
-            {% endfor %}
-                
-          </tbody>
-      </table>
+    </form>
 </div>
 
+
+<div class="container-fluid">
+  <div class="row">
+        <table class="table table-hover">
+            <thead>
+
+              <tr>
+                <th>Name</th>
+                <th>Ratings</th>
+                <th>Review Count</th>
+                <th>Category</th>
+                <th>Add to Map</th>
+              </tr>
+
+            </thead>
+
+
+
+            <tbody>
+
+            {% for business in data %}
+              <tr>
+                <td> <a href="{{ business['yelp_url'] }}">{{ business['name'] }} </a> </td>
+                <td> {{ business['rating'] }} </td>
+                <td> {{ business['review_count'] }} </td>
+                <td> {{ business['categories'] }} </td>
+                <td> {% if "user_id" in session %}
+                        <button a href='#' name="marker-button" class="savedata" data-name="{{ business['name'] }}" data-toggle="modal" data-target="#myModal"
+                        data-address="{{ business['address'] }}"
+                        data-city="{{ business['city'] }}"
+                        data-state="{{ business['state'] }}"
+                        data-zipcode="{{ business['zipcode'] }}"
+                        data-phone="{{ business['phone'] }}"
+                        data-categories="{{ business['categories'] }}"
+                        data-yelp-id="{{ business['id'] }}"
+                        data-yelp-url="{{ business['yelp_url'] }}"
+                        data-rating="{{ business['rating'] }}"
+                        data-url-rating-stars="{{ business['url_rating_stars'] }}"
+                        data-neighborhoods="{{ business['neighborhoods'] }}"
+                        data-review-count="{{ business['review_count'] }}"
+                        data-latitude="{{ business['latitude'] }}"
+                        data-longitude="{{ business['longitude'] }}"> Add</button>
+                    {% else %}
+                        <p> Log in to add this location to your map! </p>
+                    {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+
+            </tbody>
+        </table>
+  </div>
+</div>
 
  <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">

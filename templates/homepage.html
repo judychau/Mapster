@@ -1,8 +1,12 @@
 {% extends 'base.html' %}
 
 {% block head %}
-<p><a href="/mymap">My Map</a></p>
-
+<style>
+    .center_div{
+        margin: 0 auto;
+        width:80% 
+    }
+</style>
 
 {% endblock %}
 
@@ -10,39 +14,43 @@
 
 {% block content %}
 
-    <h1>Start Planning Your Trip</h1>
-    <form action="/searchresults" method="GET">
+<div class="container center_div">
 
-        <div class="form-group">
-            <label>Where are you going?:
-                <input type="text" name="location" required class="form-control">
-            </label>
-        </div>
+        <h1>Start Planning Your Trip</h1>
+        <form action="/searchresults" method="GET">
 
-        <div class="form-group">
-            <label>What are you looking for?:
-                <input type="text" name="term" required class="form-control">
-            </label>
-        </div>
-
-        <div class="form-group">
-                <label>Best Matched
-                    <input type="radio" name="sort" value="0" required class="form-control">
+            <div class="form-group">
+                <label>Where are you going?:
+                    <input type="text" name="location" required class="form-control">
                 </label>
-            <br>
-                <label>Distance
-                    <input type="radio" name="sort" value="1" required class="form-control">
-            <br>
-                <label>Highest Rated
-                    <input type="radio" name="sort" value="2" required class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label>What are you looking for?:
+                    <input type="text" name="term" required class="form-control">
                 </label>
-        </div>
+            </div>
 
-        <div class="form-group">
-            <input type="submit" value="Search" class="button">
-        </div>
+            <div class="form-group">
+                    <label>Best Matched
+                        <input type="radio" name="sort" value="0" required class="form-control">
+                    </label>
+                <br>
+                    <label>Distance
+                        <input type="radio" name="sort" value="1" required class="form-control">
+                <br>
+                    <label>Highest Rated
+                        <input type="radio" name="sort" value="2" required class="form-control">
+                    </label>
+            </div>
 
-    </form>
+            <div class="form-group">
+                <input type="submit" value="Search" class="btn btn-default">
+            </div>
 
+        </form>
+
+
+</div>
 
 {% endblock %}
