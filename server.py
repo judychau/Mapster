@@ -178,34 +178,6 @@ def display_marker():
     return render_template("mymap.html", markers=json_compiled)
     
 
-
-
-@app.route("/mymap/<int:marker_id>", methods=['POST'])
-def marker_note():
-    """user can add/edit marker note""" #need to check why it doesnt works
-
-    note = str(request.form["note"])
-
-    user_id = session.get("user_id")
-    if not user_id:
-        raise Exception("No user logged in.")
-
-    user_marker = User_Marker.query.filter_by(user_id=user_id, marker_id=marker_id).first()
-
-    if user_marker:
-        user_marker.note = note
-        flash("Note updated.")
-
-    else:
-        user_marker = User_Marker(user_id=user_id, marker_id=marker_id, note=note)
-        flash("Note added.")
-        db.session.add(user_marker)
-
-    db.session.commit()
-
-    return redirect("/mymaps/%s") % marker_id 
-
-
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the point
     # that we invoke the DebugToolbarExtension

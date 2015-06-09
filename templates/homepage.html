@@ -16,40 +16,37 @@
 
 <div class="container center_div">
 
-        <h1>Start Planning Your Trip</h1>
-        <form action="/searchresults" method="GET">
+<h1>Start Planning Your Trip</h1>
 
-            <div class="form-group">
-                <label>Where are you going?:
-                    <input type="text" name="location" required class="form-control">
-                </label>
-            </div>
+    <form action="/searchresults" method="GET">
+        
+        <div class="home-form">
+            <label>Where are you going?:</label>
+                <input type="text" name="location" required class="form-control">
+        </div>
+        <div class="home-form">
+            <label>What are you looking for?</label>
+                <input type="text" name="term" required class="form-control">
+        </div>
+        <ul class="home-form">
+            <li>
+                <label for="best-matched">Best Matched</label>
+                    <input type="radio" id="best-matched" name="sort" value="0" class="radio">
+            </li>
+            <li>
+                <label for="distance">Distance</label>
+                    <input type="radio" id="distance" name="sort" value="1" class="radio">
+            </li>
+            <li>
+                <label for="highest-rated">Highest Rated</label>
+                    <input type="radio" id="highest-rated" name="sort" value="2" class="radio">
+            </li>
+            <br>
+            <li> <input type="submit" value="Search" class="btn btn-success"></li>
+        </ul>
 
-            <div class="form-group">
-                <label>What are you looking for?:
-                    <input type="text" name="term" required class="form-control">
-                </label>
-            </div>
 
-            <div class="form-group">
-                    <label>Best Matched
-                        <input type="radio" name="sort" value="0" required class="form-control">
-                    </label>
-                <br>
-                    <label>Distance
-                        <input type="radio" name="sort" value="1" required class="form-control">
-                <br>
-                    <label>Highest Rated
-                        <input type="radio" name="sort" value="2" required class="form-control">
-                    </label>
-            </div>
-
-            <div class="form-group">
-                <input type="submit" value="Search" class="btn btn-default">
-            </div>
-
-        </form>
-
+    </form>
 
 </div>
 

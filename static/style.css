@@ -1,0 +1,90 @@
+/*HOME*/
+h1{
+	text-align: center;
+}
+
+h4{
+	font-size: 15pt
+}
+
+.home-form {
+	text-align: center;
+	list-style-type: none;
+	padding-top: 20px;
+}
+
+.home-form li {
+	display: inline-block;
+	padding-right: 10px;
+	padding-top: 20px;
+	vertical-align: top;
+}
+
+/*MYMAP*/
+#mapContainer {
+	height: 600px;
+	margin: 20px;
+	padding: 0;
+	display: inline-block;
+}
+
+#map-canvas {
+	width: 100%;
+	height: 100%;
+}
+
+#checkboxContainer {
+	margin: 0;
+	padding: 0;
+	display: inline-block;
+}
+
+#checkboxes {
+	display: inline-block;  
+	border-radius: 5px;
+	padding: 10px;
+	padding-left: 15px;
+	text-align: left;
+}
+
+
+
+
+/*RESULTS*/
+.results-form {
+	text-align: center;
+	list-style-type: none;
+	padding-left: 0;
+}
+
+.results-form li {
+	display: inline-block;
+	padding-right: 10px;
+	vertical-align: top;
+}
+
+input.radio {
+	margin: auto;
+}
+
+.submit-button {
+	margin-top: 20px;
+}
+
+.modal-radio {
+	margin-right: 5px!important;
+}
+
+.modal-inputs {
+	display: inline-block;
+	vertical-align: top;
+	padding-right: 15px;
+}
+
+.modal-inputs h4 {
+	margin-bottom: -10px;
+}
+
+.modal-header{
+
+}

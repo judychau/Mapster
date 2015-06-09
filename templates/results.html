@@ -29,6 +29,7 @@
 </script>
 
 
+
 {% endblock %}
 
 {% block content %}
@@ -37,30 +38,30 @@
     <form action="/searchresults" method="GET">
 
       <div class="form-group">
-        <div style="float: left">
-              <label>Where are you going?:
-                  <input type="text" name="location" required class="form-control">
-              </label>
-
-              <label>What are you looking for?:
-                  <input type="text" name="term" required class="form-control">
-              </label>
-        </div>
-        <div style="float: left">
-              <label>Best Matched
-                  <input type="radio" name="sort" value="0" class="radio">
-              </label>
-              
-              <label>Distance
-                  <input type="radio" name="sort" value="1" class="radio">
-              </label>
-
-              <label>Highest Rated
-                  <input type="radio" name="sort" value="2" class="radio">
-              </label>
-        </div>
-              <input type="submit" value="Search" class="btn btn-default">
-
+        <ul class="results-form">
+          <li> 
+            <label for="location">Where are you going?</label>
+            <input type="text" id="location" name="location" required class="form-control">
+            
+          </li>
+          <li>
+            <label for="term">What are you looking for?</label>
+            <input type="text" id="term" name="term" required class="form-control">
+          </li>
+          <li>
+            <label for="best-matched">Best Matched</label>
+            <input type="radio" id="best-matched" name="sort" value="0" class="radio">
+          </li>
+          <li>
+            <label for="distance">Distance</label>
+            <input type="radio" id="distance" name="sort" value="1" class="radio">
+          </li>
+          <li>
+            <label for="highest-rated">Highest Rated</label>
+            <input type="radio" id="highest-rated" name="sort" value="2" class="radio">
+          </li>
+          <li><input type="submit" value="Search" class="btn btn-default submit-button"></li>
+        </ul>
       </div>
 
     </form>
@@ -88,12 +89,12 @@
 
             {% for business in data %}
               <tr>
-                <td> <a href="{{ business['yelp_url'] }}">{{ business['name'] }} </a> </td>
-                <td> {{ business['rating'] }} </td>
+                <td> <a href="{{ business['yelp_url'] }}" target="_blank">{{ business['name'] }} </a> </td>
+                <td> <a href="{{ business['yelp_url'] }}" target="_blank"><img src="{{ business['url_rating_stars'] }}"> <img src="https://s3-media1.fl.yelpcdn.com/assets/2/www/img/14f29ad24935/map/miniMapLogo.png"></a></td>
                 <td> {{ business['review_count'] }} </td>
                 <td> {{ business['categories'] }} </td>
                 <td> {% if "user_id" in session %}
-                        <button a href='#' name="marker-button" class="savedata" data-name="{{ business['name'] }}" data-toggle="modal" data-target="#myModal"
+                        <button a href='#' name="marker-button" class="savedata btn" data-name="{{ business['name'] }}" data-toggle="modal" data-target="#myModal"
                         data-address="{{ business['address'] }}"
                         data-city="{{ business['city'] }}"
                         data-state="{{ business['state'] }}"
@@ -120,51 +121,56 @@
   </div>
 </div>
 
+
+<!-- Modal -->
  <div class="modal fade" id="myModal" role="dialog">
     <div class="modal-dialog">
-    
-      <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title">My map</h4>
+          <h3 class="modal-title">My Map</h3>
         </div>
-        <div class="modal-body">
-            <form id="mycat" name="mycat" action="#">
-              <label>Place:
+
+        <form id="mycat" name="mycat" action="#">
+          <div class="modal-body">
+            
+              <div class="modal-inputs"><h4>Place:</h4>
+                  <br><label for="hotel">Hotel</label>
+                    <input type="radio" id="hotel" name="mycat" value="hotel" class="modal-radio">
+                  <br><label for="sightseeing">Sightseeing</label>
+                    <input type="radio" id="sightseeing" name="mycat" value="sightseeing" class="modal-radio">
+                  <br><label for="activities">Activity</label>
+                    <input type="radio" id="activities" name="mycat" value="activities" class="modal-radio">
                   <br>
-                    <input type="radio" name="mycat" value="hotel">Hotel
                   <br>
-                    <input type="radio" name="mycat" value="sightseeing">Sightseeing
-                  <br>
-                    <input type="radio" name="mycat" value="activities">Activity
-                  <br>
-                  <br>
-              </label>
+              </div>
               
-              <label>Meal:
+              <div class="modal-inputs"><h4>Meal:</h4>
+                  <br><label for="breakfast">Breakfast</label>
+                    <input type="radio" id="breakfast" name="mycat" value="breakfast" class="modal-radio">
+                  <br><label for="lunch">Lunch</label>
+                    <input type="radio" id="lunch" name="mycat" value="lunch" class="modal-radio">
+                  <br><label for="dinner"> Dinner</label>
+                    <input type="radio" id="dinner" name="mycat" value="dinner" class="modal-radio">
+                  <br><label for="snacks">Snacks</label>
+                    <input type="radio" id="snack" name="mycat" value="snack" class="modal-radio">
                   <br>
-                    <input type="radio" name="mycat" value="breakfast">Breakfast
                   <br>
-                    <input type="radio" name="mycat" value="lunch">Lunch
-                  <br>
-                    <input type="radio" name="mycat" value="dinner">Dinner
-                  <br>
-                    <input type="radio" name="mycat" value="snack">Snack
-                  <br>
-              </label>
+              </div>
+
+              <div class="modal-inputs">
+                <label><h4>Notes:</h4>
+                    <br>
+                      <textarea rows="3" cols="20" name="note" class="form-control"></textarea>
+                </label>
+              </div>
                   <br>
 
-              <label>Notes:
-                  <br>
-                    <input type="text" name="note" class="form-control">
-              </label>
-                  <br>
-                    <input id="modal-save" type="submit" data-dismiss="modal" value="Save to map" class="btn">
-            </form>
         </div>
         <div class="modal-footer">
-          <button class="btn" id="close_btn" data-dismiss="modal">Cancel</button>
+          <input id="modal-save" type="submit" data-dismiss="modal" value="Save to map" class="btn btn-default" style="float: left">
+          <button class="btn" style="float: left" id="close_btn" data-dismiss="modal">Cancel</button>
         </div>
+      </form>
       </div>
       
     </div>
