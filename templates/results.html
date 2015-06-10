@@ -33,11 +33,11 @@
 {% endblock %}
 
 {% block content %}
-<div class="container-fluid">
+<div class="container-horizontal">
 
     <form action="/searchresults" method="GET">
 
-      <div class="form-group">
+      <div class="form-group-results">
         <ul class="results-form">
           <li> 
             <label for="location">Where are you going?</label>
@@ -60,7 +60,7 @@
             <label for="highest-rated">Highest Rated</label>
             <input type="radio" id="highest-rated" name="sort" value="2" class="radio">
           </li>
-          <li><input type="submit" value="Search" class="btn btn-default submit-button"></li>
+          <li><input type="submit" value="Search" class="btn btn-success submit-button"></li>
         </ul>
       </div>
 
@@ -123,16 +123,16 @@
 
 
 <!-- Modal -->
- <div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h3 class="modal-title">My Map</h3>
-        </div>
+<div class="modal fade" id="myModal" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      
+      <div class="modal-header">
+        <h3 class="modal-title">My Map</h3>
+      </div>
 
-        <form id="mycat" name="mycat" action="#">
-          <div class="modal-body">
-            
+      <form id="mycat" name="mycat" action="#">
+        <div class="modal-body">
               <div class="modal-inputs"><h4>Place:</h4>
                   <br><label for="hotel">Hotel</label>
                     <input type="radio" id="hotel" name="mycat" value="hotel" class="modal-radio">
@@ -158,23 +158,21 @@
               </div>
 
               <div class="modal-inputs">
-                <label><h4>Notes:</h4>
-                    <br>
-                      <textarea rows="3" cols="20" name="note" class="form-control"></textarea>
-                </label>
-              </div>
-                  <br>
-
+                    <label><h4>Notes:</h4>
+                      <br><textarea rows="3" cols="20" name="note" class="form-control"></textarea>
+                    </label>
+              </div><br>
         </div>
+
         <div class="modal-footer">
-          <input id="modal-save" type="submit" data-dismiss="modal" value="Save to map" class="btn btn-default" style="float: left">
+            <input id="modal-save" type="submit" data-dismiss="modal" value="Save to map" class="btn btn-default" style="float: left">
           <button class="btn" style="float: left" id="close_btn" data-dismiss="modal">Cancel</button>
         </div>
-      </form>
-      </div>
-      
+    </form>
+
     </div>
   </div>
+</div>
 
 
 

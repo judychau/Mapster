@@ -1,29 +1,90 @@
+
+/*NAVBAR*/
+.navbar-brand{
+	text-align: left;
+	font-family: 'Satisfy', cursive;
+	font-size: 30pt;
+}
+
+.navbar .nav li a{
+	font-family: 'Satisfy', cursive;
+	font-size: 15pt;
+	color: #93c54b;
+}
+
 /*HOME*/
-h1{
+.container h1{
 	text-align: center;
+	font-family: 'Satisfy', cursive;
+	color: #282828;
+	font-size: 100pt;
+	text-shadow: 2px 2px 4px white;
+}
+.container h4{
+	text-align: center;
+	text-shadow: 1px 1px 0.5px white;
+	margin-left: 130px;
+	margin-top:-30px;
 }
 
-h4{
-	font-size: 15pt
+
+.profile-background{
+	background-image: url(/static/ecailles.png);
+	background-repeat: repeat;
 }
 
-.home-form {
+.home-background{
+	background-image: url(/static/car_blur_blur.jpg);
+	background-size: cover;
+    background-attachment: fixed;
+    background-position: center center;
+    height: 100%;
+    width: 100%;
+	background-repeat: none;
+}
+
+.form-container{
+	margin: 10px 50px 50px 50px;
+	padding-right: 25%;
+	padding-left: 25%;
+}
+
+.form-group-home {
 	text-align: center;
 	list-style-type: none;
 	padding-top: 20px;
+	color: #D0D0D0;
+	text-shadow: 2px 2px 4px black;
 }
 
-.home-form li {
+
+.form-group-home input, textarea{
+	opacity: 0.4;
+}
+
+.form-group-home li {
 	display: inline-block;
-	padding-right: 10px;
+	padding-right: 30px;
 	padding-top: 20px;
 	vertical-align: top;
+	color: #D0D0D0;
+}
+
+
+/*REGISTER*/
+.register-form{
+
+}
+
+.link{
+	text-align: center;
 }
 
 /*MYMAP*/
 #mapContainer {
-	height: 600px;
+	height: 500px;
 	margin: 20px;
+	margin-left: 40px;
 	padding: 0;
 	display: inline-block;
 }
@@ -34,23 +95,45 @@ h4{
 }
 
 #checkboxContainer {
-	margin: 0;
+	border-radius: 10px;
+	background-color: #93c54b;
+	margin-top: 25px;
 	padding: 0;
 	display: inline-block;
+}
+
+#checkboxes h3{
+	font-family: 'Satisfy', cursive;
+	font-size: 25pt;
+	font-weight: bold;
+	text-align: center;
+	text-decoration: underline;
+	margin: 10px;
 }
 
 #checkboxes {
 	display: inline-block;  
 	border-radius: 5px;
 	padding: 10px;
-	padding-left: 15px;
 	text-align: left;
+}
+
+#checkboxes label{
+	font-size: 13pt;
 }
 
 
 
-
 /*RESULTS*/
+.container-horizontal{
+	outline-style: double;
+	padding-bottom: 1px; 
+	margin-top: -10px;
+}
+
+.container-fluid{
+	padding-top: 10px;
+}
 .results-form {
 	text-align: center;
 	list-style-type: none;
@@ -61,6 +144,25 @@ h4{
 	display: inline-block;
 	padding-right: 10px;
 	vertical-align: top;
+}
+
+.form-group {
+	text-align: center;
+	list-style-type: none;
+	padding-top: 20px;
+}
+
+.form-group li {
+	display: inline-block;
+	padding-right: 30px;
+	padding-top: 20px;
+	vertical-align: top;
+}
+
+.form-group-results {
+	text-align: center;
+	list-style-type: none;
+	padding-top: 10px;
 }
 
 input.radio {
@@ -87,4 +189,8 @@ input.radio {
 
 .modal-header{
 
+}
+
+h4{
+	font-size: 15pt
 }
