@@ -126,9 +126,10 @@
 
 /*RESULTS*/
 .container-horizontal{
+	background-color: #FFCC99;
 	outline-style: double;
 	padding-bottom: 1px; 
-	margin-top: -10px;
+	margin-top: -15px;
 }
 
 .container-fluid{
