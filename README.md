@@ -10,10 +10,9 @@ JavaScript, jQuery, HTML, CSS, AJAX, BootStrap, Python, Flask, Jinja, SQLAlchemy
 
 ####Search and Destination
 
-On the Homepage, users input a search, destination, and sort parameter. Doing so, the Yelp API is being called and queried. The returned results will appear in the next page where users can compare locations with star ratings, review count, category, and a link to the yelp page for additional research one may want to do. 
+On the Homepage, users input a search, destination, and sort parameter. Doing so, the Yelp API is being called and queried. The returned results will appear in the next page where users can compare locations with star ratings, review count, category, and a link to the Yelp page for additional research one may want to do. 
 
 ![image](./static/images/homepage.png)
-
 
 
 #### Saving Markers
@@ -21,10 +20,12 @@ Once the user chooses a location to add to their map, a modal window will appear
 
 ![image](./static/images/results.png)
 
+![image](./static/images/modal.png)
+
+
 #### Marker Information
 For each marker displayed on the map, a info window is assigned to it. When a marker is clicked, the info window appears, displaying all the specific information about that maker location and your personal notes you may have included.
 
-![image](./static/images/modal.png)
 
 ![image](./static/images/map.png)
 
