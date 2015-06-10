@@ -10,13 +10,13 @@ JavaScript, jQuery, HTML, CSS, AJAX, BootStrap, Python, Flask, Jinja, SQLAlchemy
 
 ####Search and Destination
 
-On the Homepage, users input a search, destination, and sort parameter. Doing so, the Yelp API is being called and queried. The returned results will appear in the next page where users can compare locations with star ratings, review count, category, and a link to the Yelp page for additional research one may want to do. 
+On the Homepage, users input a search, destination, and sort parameter. Doing so, the Yelp API is being called and queried. The returned results will appear in the next page in a table format where users can compare locations with star ratings, review count, category, and a link to the Yelp page for additional research one may want to do. 
 
 ![image](./static/images/homepage.png)
 
 
 #### Saving Markers
-Once the user chooses a location to add to their map, a modal window will appear, prompting the user to choose a map category and any additional notes they have for that specific location. On the map, the map category becomes a checkmark box, turning on and off the markers on the map that are associated with that category.
+Once the user chooses a location to add to their map, a modal window will appear, prompting the user to choose a map category. Users may also add any additional notes they may have for that specific location. On the map, the map category will be in form of a check box feature which will turn on and off the markers that are associated with that category.
 
 ![image](./static/images/results.png)
 
@@ -24,7 +24,7 @@ Once the user chooses a location to add to their map, a modal window will appear
 
 
 #### Marker Information
-For each marker displayed on the map, a info window is assigned to it. When a marker is clicked, the info window appears, displaying all the specific information about that maker location and your personal notes you may have included.
+For each marker displayed on the map, a info window is assigned to it. When a marker is clicked, the info window appears, displaying all the specific information about that marker location, including their personal notes.
 
 
 ![image](./static/images/map.png)
