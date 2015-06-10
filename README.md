@@ -12,9 +12,8 @@ JavaScript, jQuery, HTML, CSS, AJAX, BootStrap, Python, Flask, Jinja, SQLAlchemy
 
 On the Homepage, users input a search, destination, and sort parameter. Doing so, the Yelp API is being called and queried. The returned results will appear in the next page where users can compare locations with star ratings, review count, category, and a link to the yelp page for additional research one may want to do. 
 
-<p align="center">
-  <img align="center" src="/static/images/homepage.png" alt="Home-Page">
-</p>
+![image]("/static/images/homepage.png")
+
 
 
 #### Saving Markers
