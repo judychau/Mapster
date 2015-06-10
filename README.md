@@ -19,20 +19,14 @@ On the Homepage, users input a search, destination, and sort parameter. Doing so
 #### Saving Markers
 Once the user chooses a location to add to their map, a modal window will appear, prompting the user to choose a map category and any additional notes they have for that specific location. On the map, the map category becomes a checkmark box, turning on and off the markers on the map that are associated with that category.
 
-<p align="center">
-  <img align="center" src="/static/images/results.png" alt="Home-Page">
-</p>
+![image](./static/images/results.png)
 
 #### Marker Information
 For each marker displayed on the map, a info window is assigned to it. When a marker is clicked, the info window appears, displaying all the specific information about that maker location and your personal notes you may have included.
 
-<p align="center">
-  <img align="center" src="/static/images/modal.png" alt="Home-Page">
-</p>
+![image](./static/images/modal.png)
 
-<p align="center">
-  <img align="center" src="/static/images/map.png" alt="Home-Page">
-</p>
+![image](./static/images/map.png)
 
 
 
