@@ -29,12 +29,12 @@
 
 
 .profile-background{
-	background-image: url(/static/ecailles.png);
+	background-image: url(/static/images/ecailles.png);
 	background-repeat: repeat;
 }
 
 .home-background{
-	background-image: url(/static/car_blur_blur.jpg);
+	background-image: url(/static/images/car_blur_blur.jpg);
 	background-size: cover;
     background-attachment: fixed;
     background-position: center center;
