@@ -3,7 +3,6 @@ from scripts import query_api #, gmaps_request
 from jinja2 import StrictUndefined
 from flask import Flask, render_template, redirect, request, flash, session
 from flask_debugtoolbar import DebugToolbarExtension
-#from model import User, User_Points, Marker, Category, connect_to_db, db
 from model import connect_to_db, db, User, Marker, User_Marker
 
 app = Flask(__name__)
@@ -181,7 +180,7 @@ def display_marker():
 if __name__ == "__main__":
     # We have to set debug=True here, since it has to be True at the point
     # that we invoke the DebugToolbarExtension
-    app.debug = False
+    app.debug = True
 
     connect_to_db(app)
 
