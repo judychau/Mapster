@@ -149,6 +149,14 @@ June 9, 2015
 -career day presentation prep
 -working on read me
 
+August 6, 2015
+-Researched postgres db on flask applications
+-Installed psychopg and postgres
+-Got postgres connecting on only one table (for some odd reason)
+
+August 9, 2015
+-Got postgres connected on all tables, turns out you have to indicate varchar and float charaters
+
 
 
 

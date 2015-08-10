@@ -4,7 +4,7 @@ With so many things to see, do, and eat, Mapster provides a spatial reference fo
 
 
 ####Technology Stack
-JavaScript, jQuery, HTML, CSS, AJAX, BootStrap, Python, Flask, Jinja, SQLAlchemy, SQLite
+JavaScript, jQuery, HTML, CSS, AJAX, BootStrap, Python, Flask, Jinja, SQLAlchemy, PostgreSQL
 
 
 
