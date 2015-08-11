@@ -9,7 +9,7 @@ from model import connect_to_db, db, User, Marker, User_Marker
 app = Flask(__name__)
 
 # Required to use Flask sessions and the debug toolbar
-SECRET_KEY = os.environ['FLASK_SECRET_KEY']
+SECRET_KEY = os.environ.get('FLASK_SECRET_KEY', 'ABC')
 app.secret_key = SECRET_KEY
 
 
@@ -218,14 +218,13 @@ def display_marker():
     
 ###########################################
 
+
 if __name__ == "__main__":
-    
-    # Invoke the DebugToolbarExtension
-    app.debug = True
+    import doctest
 
-    connect_to_db(app)
+    # heroku
+    PORT = int(os.environ.get("PORT", 5000))
+    DEBUG = "NO_DEBUG" not in os.environ
 
-    # Use the DebugToolbar
-    DebugToolbarExtension(app)
-
-    app.run()
+    if doctest.testmod().failed == 0:
+        app.run(debug=DEBUG, host="0.0.0.0", port=PORT)
