@@ -1,4 +1,5 @@
 """Mapster Server"""
+import os 
 from scripts import query_api #, gmaps_request
 from jinja2 import StrictUndefined
 from flask import Flask, render_template, redirect, request, flash, session
@@ -6,13 +7,18 @@ from flask_debugtoolbar import DebugToolbarExtension
 from model import connect_to_db, db, User, Marker, User_Marker
 
 app = Flask(__name__)
+
 # Required to use Flask sessions and the debug toolbar
-app.secret_key = "ABC"
-# Normally, if you use an undefined variable in Jinja2, it fails silently.
-# This is horrible. Fix this so that, instead, it raises an error.
+SECRET_KEY = os.environ['FLASK_SECRET_KEY']
+app.secret_key = SECRET_KEY
+
+
 app.jinja_env.undefined = StrictUndefined
 
 
+##################
+# HOMEPAGE ROUTE #
+##################
 
 @app.route("/", methods=['GET'])
 def index():
@@ -21,12 +27,20 @@ def index():
     return render_template("homepage.html")
 
 
+##################
+#   USER LOGIN   #
+##################
+
 @app.route('/login', methods=['GET'])
 def login_form():
     """Show login form for user to log in"""
 
     return render_template("login_form.html")
 
+
+##################
+# LOGIN PROCESS  #
+##################
 
 @app.route('/login', methods=['POST'])
 def login_process():
@@ -51,6 +65,10 @@ def login_process():
     return redirect("/")
 
 
+##################
+#     LOGOUT     #
+##################
+
 @app.route('/logout')
 def logout():
     """Log out user from session"""
@@ -59,12 +77,21 @@ def logout():
     flash("You are now logged out")
     return redirect("/")
 
+
+##################
+#    REGISTER    #
+##################
+
 @app.route('/register', methods=['GET'])
 def register_form():
     """Show form for user to register/signup."""
 
     return render_template("register_form.html")
 
+
+####################
+# REGISTER PROCESS #
+####################
 
 @app.route('/register', methods=['POST'])
 def register_process():
@@ -92,6 +119,10 @@ def register_process():
         return redirect("/")
 
 
+##################
+#  YELP RESULTS  #
+##################
+
 @app.route('/searchresults', methods=['GET'])
 def yelp_results():
     """use user input as the query parameter of url to display search results in results.html"""
@@ -104,6 +135,10 @@ def yelp_results():
 
     return render_template('results.html', data=data)
 
+
+###################
+#   SAVE MARKER   #
+###################
 
 @app.route("/savemarker", methods=['POST'])
 def save_marker():
@@ -142,6 +177,9 @@ def save_marker():
     db.session.commit()
 
 
+###################
+# DISPLAY MARKERS #
+###################
 
 @app.route("/mymap", methods=['GET'])
 def display_marker():
@@ -175,11 +213,14 @@ def display_marker():
         json_compiled[marker.marker_id]['note'] = marker.note
 
     return render_template("mymap.html", markers=json_compiled)
+
+
     
+###########################################
 
 if __name__ == "__main__":
-    # We have to set debug=True here, since it has to be True at the point
-    # that we invoke the DebugToolbarExtension
+    
+    # Invoke the DebugToolbarExtension
     app.debug = True
 
     connect_to_db(app)

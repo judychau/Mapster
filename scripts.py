@@ -3,29 +3,14 @@ import json
 import pprint
 import urllib
 import urllib2
-import os #to access secrets.sh
+import os 
 import oauth2
 import rauth
 
 
-
-def gmaps_request(search, destination):
-    """requests info about a place using query parameter"""
-
-    GMAPS_KEY=os.environ['gmaps_key']  #'gmaps_key' from secrets.sh and passing to gmaps_key in url
-    pre_query = search + '+' + destination
-    QUERY = pre_query.replace(' ', '+') 
-
-    url= 'https://maps.googleapis.com/maps/api/place/textsearch/json?query=%s&key=%s' %(QUERY, GMAPS_KEY)
-
-    api_data = requests.get(url)
-    data = api_data.json()
-
-    #*******************test*******************
-    pprint.pprint(data, indent=2)
-    # return data #dictionary from json
-
-
+##################
+#    YELP API    #
+##################
 
 API_HOST = 'api.yelp.com'
 SEARCH_PATH = '/v2/search/'
