@@ -5,7 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 # the Flask-SQLAlchemy helper library. On this, we can find the `session`
 # object, where we do most of our interactions (like committing, etc.)
 
-db = SQLAlchemy()
+db = SQLAlchemy(app)
 
 
 
