@@ -13,7 +13,7 @@ app = Flask(__name__)
 SECRET_KEY = os.environ.get('FLASK_SECRET_KEY', 'ABC')
 app.secret_key = SECRET_KEY
 
-
+# Fix Jinja undefined variable when it silently fails
 app.jinja_env.undefined = StrictUndefined
 
 
@@ -216,16 +216,16 @@ def display_marker():
     return render_template("mymap.html", markers=json_compiled)
 
 
+
+
     
 ###########################################
-
-
 if __name__ == "__main__":
-    import doctest
+    app.debug = False
 
-    # heroku
-    PORT = int(os.environ.get("PORT", 5000))
-    DEBUG = "NO_DEBUG" not in os.environ
+    connect_to_db(app)
 
-    if doctest.testmod().failed == 0:
-        app.run(debug=DEBUG, host="0.0.0.0", port=PORT)
+    # Use the DebugToolbar
+    DebugToolbarExtension(app)
+
+    app.run()
