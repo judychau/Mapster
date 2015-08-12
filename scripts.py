@@ -15,10 +15,10 @@ import rauth
 API_HOST = 'api.yelp.com'
 SEARCH_PATH = '/v2/search/'
 BUSINESS_PATH = '/v2/business/'
-CONSUMER_KEY = os.environ['CONSUMER_KEY']
-CONSUMER_SECRET = os.environ['CONSUMER_SECRET']
-TOKEN = os.environ['TOKEN']
-TOKEN_SECRET = os.environ['TOKEN_SECRET']
+CONSUMER_KEY = os.environ.get('CONSUMER_KEY')
+CONSUMER_SECRET = os.environ.get('CONSUMER_SECRET')
+TOKEN = os.environ.get('TOKEN')
+TOKEN_SECRET = os.environ.get('TOKEN_SECRET')
 
 
 def request(host, path, url_params=None):
