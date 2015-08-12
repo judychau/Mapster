@@ -221,11 +221,9 @@ def display_marker():
     
 ###########################################
 if __name__ == "__main__":
-    app.debug = False
 
     connect_to_db(app)
 
-    # Use the DebugToolbar
-    DebugToolbarExtension(app)
-
-    app.run()
+    #heroku
+    PORT = int(os.environ.get("PORT", 5000))
+    app.run(debug=True, host="0.0.0.0", port=PORT)
