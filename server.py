@@ -8,9 +8,6 @@ from model import connect_to_db, db, User, Marker, User_Marker
 
 app = Flask(__name__)
 
-# Create database connection
-DATABASE_URL = os.environ.get("DATABASE_URL", "postgresql:///judychau")
-app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 
 # Required to use Flask sessions and the debug toolbar
 SECRET_KEY = os.environ.get('FLASK_SECRET_KEY', 'ABC')

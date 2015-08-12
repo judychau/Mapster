@@ -77,7 +77,9 @@ def connect_to_db(app):
     """Connect the database to our Flask app."""
 
     # Configure to use our postgresql database
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/mapster'
+    # Create database connection
+    DATABASE_URL = os.environ.get("DATABASE_URL", "postgresql:///judychau")
+    app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
     app.config['SQLALCHEMY_ECHO'] = True
     db.app = app
     db.init_app(app)
