@@ -8,7 +8,7 @@ from flask_sqlalchemy import SQLAlchemy
 db = SQLAlchemy()
 
 
-#model definitions
+
 
 class User(db.Model):
     """User info"""
