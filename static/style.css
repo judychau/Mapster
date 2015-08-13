@@ -31,10 +31,10 @@
 .home-background{
 	background-image: url(/static/images/car_blur_blur.jpg);
 	background-size: cover;
-    background-attachment: fixed;
-    background-position: center center;
-    height: 100%;
-    width: 100%;
+	background-attachment: fixed;
+	background-position: center center;
+	height: 100%;
+	width: 100%;
 	background-repeat: none;
 }
 
@@ -186,7 +186,7 @@ input.radio {
 
 .modal-content {
 	margin-left: 30px;
-    margin-right: 70px;
+	margin-right: 70px;
 }
 
 .modal-radio {
