@@ -28,11 +28,6 @@
 }
 
 
-.profile-background{
-	background-image: url(/static/images/ecailles.png);
-	background-repeat: repeat;
-}
-
 .home-background{
 	background-image: url(/static/images/car_blur_blur.jpg);
 	background-size: cover;
@@ -59,7 +54,10 @@
 
 
 .form-group-home input, textarea{
-	opacity: 0.4;
+	text-align: center;
+	color: #282828;
+	font-weight: bold;
+	opacity: 0.5;
 }
 
 .form-group-home li {
@@ -125,6 +123,11 @@
 
 
 /*RESULTS*/
+.profile-background{
+	background-image: url(/static/images/ecailles.png);
+	background-repeat: repeat;
+}
+
 .container-horizontal{
 	background-color: #FFCC99;
 	outline-style: double;
@@ -174,6 +177,17 @@ input.radio {
 	margin-top: 20px;
 }
 
+
+/*MODAL*/
+.modal-body {
+	text-align: center;
+}
+
+.modal-content {
+	margin-left: 30px;
+    margin-right: 70px;
+}
+
 .modal-radio {
 	margin-right: 5px!important;
 }
@@ -182,14 +196,26 @@ input.radio {
 	display: inline-block;
 	vertical-align: top;
 	padding-right: 15px;
+	text-align: left;
 }
 
 .modal-inputs h4 {
 	margin-bottom: -10px;
+	text-decoration: underline;
 }
 
-.modal-header{
+.modal-inputs textarea {
+	text-align: left;
+	padding: 5px;
+}
 
+
+.modal-header{
+	text-align: center;
+	font-family: 'Satisfy', cursive;
+	color: #93c54b;
+	background-color: #282828;
+	border-radius: 10px;
 }
 
 h4{
