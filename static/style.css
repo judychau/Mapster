@@ -102,7 +102,7 @@
 
 #checkboxes h3{
 	font-family: 'Satisfy', cursive;
-	font-size: 25pt;
+	font-size: 30pt;
 	font-weight: bold;
 	text-align: center;
 	text-decoration: underline;
@@ -116,7 +116,7 @@
 	text-align: left;
 }
 
-#checkboxes label{
+#checkboxes label, input{
 	font-size: 13pt;
 }
 
